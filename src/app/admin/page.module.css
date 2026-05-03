@@ -1,0 +1,11 @@
+.page {
+  max-width: 1200px;
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--spacing-8);
+  color: var(--color-text-primary);
+}

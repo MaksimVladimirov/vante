@@ -1,0 +1,18 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-gray-50);
+}
+
+.main {
+  flex: 1;
+  padding: var(--spacing-8);
+  overflow-y: auto;
+  min-width: 0;
+}
+
+@media (max-width: 767px) {
+  .layout {
+    flex-direction: column;
+  }
+}
