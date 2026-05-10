@@ -25,7 +25,7 @@ export function AdminSidebar() {
   return (
     <aside className={styles.sidebar}>
       <Link href="/admin" className={styles.brand}>
-        vanté admin
+        MVXIII admin
       </Link>
 
       <p className={styles.label}>Меню</p>

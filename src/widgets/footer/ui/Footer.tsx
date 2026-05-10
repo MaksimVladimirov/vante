@@ -29,7 +29,7 @@ export function Footer() {
         <div className={styles.mainInner}>
           <div>
             <Link href="/" className={styles.brand}>
-              vanté
+              MVXIII
             </Link>
             <p className={styles.brandSub}>by Maxim Vladimirov</p>
           </div>

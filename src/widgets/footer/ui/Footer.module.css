@@ -68,7 +68,6 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--letter-spacing-widest);
-  text-transform: lowercase;
   text-decoration: none;
   color: var(--color-text-primary);
   display: block;

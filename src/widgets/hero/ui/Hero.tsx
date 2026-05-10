@@ -40,7 +40,7 @@ export async function Hero() {
     <section className={styles.hero}>
       <Image
         src={s.image}
-        alt="vanté hero"
+        alt="MVXIII hero"
         fill
         className={styles.bg}
         priority
