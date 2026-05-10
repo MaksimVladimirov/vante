@@ -37,7 +37,7 @@ export default async function ProductPage({ params }: Props) {
         )}
       </div>
 
-      <div className={styles.info}>
+      {/* <div className={styles.info}>
         <div className={styles.infoSticky}>
           {product.category && (
             <p className={styles.category}>{product.category.name}</p>
@@ -82,7 +82,7 @@ export default async function ProductPage({ params }: Props) {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

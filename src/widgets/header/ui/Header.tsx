@@ -7,13 +7,18 @@ import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import { useCartTotals, useCartStore } from "@/entities/cart/model/store";
 import styles from "./Header.module.css";
 
-const navLinks = [
+const FALLBACK_NAV = [
   { href: "/suits", label: "Костюмы" },
   { href: "/shirts", label: "Рубашки" },
+  { href: "/pants", label: "Брюки" },
   { href: "/accessories", label: "Аксессуары" },
 ];
 
-export function Header() {
+interface HeaderProps {
+  navLinks?: Array<{ href: string; label: string }>;
+}
+
+export function Header({ navLinks = FALLBACK_NAV }: HeaderProps) {
   const pathname = usePathname();
   const { itemCount } = useCartTotals();
   const openCart = useCartStore((s) => s.openCart);
@@ -23,7 +28,7 @@ export function Header() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <Link href="/" className={styles.logo}>
-          vanté
+          MVXIII
         </Link>
 
         <nav className={styles.nav}>

@@ -24,14 +24,19 @@
   height: 28px;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color var(--transition-fast);
-  outline: 1px solid var(--color-border-dark);
+  border: none;
+  padding: 0;
+  outline: none;
+  transition: box-shadow var(--transition-fast);
 }
 
+.colorSwatch:hover {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px #999;
+}
+
+/* white gap + black ring — works for any swatch color including black */
 .colorSwatchActive {
-  border-color: var(--color-black);
-  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
 }
 
 .sizeOptions {
@@ -41,9 +46,10 @@
 }
 
 .sizeBtn {
-  width: 48px;
+  min-width: 48px;
   height: 40px;
-  border: 1px solid var(--color-border-dark);
+  padding: 0 var(--spacing-2);
+  border: 1.5px solid var(--color-border-dark);
   background: none;
   font-family: var(--font-sans);
   font-size: var(--font-size-sm);
@@ -51,7 +57,7 @@
   transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.sizeBtn:hover {
+.sizeBtn:hover:not(.sizeBtnActive):not(.sizeBtnDisabled) {
   background: var(--color-gray-100);
 }
 
@@ -59,6 +65,13 @@
   background: var(--color-black);
   color: var(--color-white);
   border-color: var(--color-black);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sizeBtnDisabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  text-decoration: line-through;
 }
 
 .sizeGuide {

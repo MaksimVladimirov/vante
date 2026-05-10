@@ -9,6 +9,7 @@ export interface Product {
   images: string[];
   colors: string[];
   sizes: string[];
+  size_stock: Record<string, number>;
   stock: number;
   status: 'active' | 'inactive';
   created_at: string;

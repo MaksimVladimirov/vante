@@ -4,7 +4,7 @@ import type { Product, ProductFilters } from './types';
 export async function fetchProducts(filters?: ProductFilters): Promise<Product[]> {
   let query = supabase
     .from('products')
-    .select('*, category:categories(*)')
+    .select('*, category:categories!inner(*)')
     .eq('status', 'active');
 
   if (filters?.category) {

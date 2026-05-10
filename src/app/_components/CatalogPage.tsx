@@ -23,6 +23,9 @@ export function CatalogPage({ categorySlug, title }: CatalogPageProps) {
   const colors = searchParams.getAll('color');
   const sizes = searchParams.getAll('size');
 
+  const availableColors = [...new Set(products.flatMap((p) => p.colors))];
+  const availableSizes = [...new Set(products.flatMap((p) => p.sizes))];
+
   useEffect(() => {
     setLoading(true);
     fetchProducts({ category: categorySlug, colors, sizes, sortBy })
@@ -56,7 +59,7 @@ export function CatalogPage({ categorySlug, title }: CatalogPageProps) {
       </div>
 
       <div className={styles.body}>
-        <ProductFilters />
+        <ProductFilters availableSizes={loading ? undefined : availableSizes} availableColors={loading ? undefined : availableColors} />
         <div className={styles.products}>
           <ProductGrid products={products} loading={loading} />
         </div>

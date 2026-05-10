@@ -35,13 +35,19 @@
   transition: color var(--transition-fast);
 }
 
-.filterItem:hover,
+.filterItem:hover:not(.filterItemDisabled),
 .filterItemActive {
   color: var(--color-text-primary);
 }
 
 .filterItemActive {
   font-weight: var(--font-weight-medium);
+}
+
+.filterItemDisabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  text-decoration: line-through;
 }
 
 .colorSwatch {

@@ -6,7 +6,8 @@ import {
   AppstoreOutlined,
   ShoppingOutlined,
   TagsOutlined,
-  SettingOutlined,
+  PictureOutlined,
+  FolderOutlined,
 } from '@ant-design/icons';
 import styles from './AdminSidebar.module.css';
 
@@ -14,7 +15,8 @@ const navItems = [
   { href: '/admin', label: 'Дашборд', icon: <AppstoreOutlined /> },
   { href: '/admin/products', label: 'Товары', icon: <TagsOutlined /> },
   { href: '/admin/orders', label: 'Заказы', icon: <ShoppingOutlined /> },
-  { href: '/admin/settings', label: 'Настройки', icon: <SettingOutlined /> },
+  { href: '/admin/categories', label: 'Категории', icon: <FolderOutlined /> },
+  { href: '/admin/hero', label: 'Главная страница', icon: <PictureOutlined /> },
 ];
 
 export function AdminSidebar() {

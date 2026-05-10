@@ -4,27 +4,37 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useCallback } from 'react';
 import styles from './ProductFilters.module.css';
 
-const COLORS = ['Black', 'Navy', 'Grey', 'White'];
+const COLORS = ['Black', 'Navy', 'Grey', 'White', 'Charcoal', 'Brown', 'Beige', 'Olive'];
 const COLOR_LABELS: Record<string, string> = {
   Black: 'Чёрный',
   Navy: 'Тёмно-синий',
   Grey: 'Серый',
   White: 'Белый',
+  Charcoal: 'Тёмно-серый',
+  Brown: 'Коричневый',
+  Beige: 'Бежевый',
+  Olive: 'Оливковый',
 };
-const SIZES = ['44', '46', '48', '50', '52', '54'];
+const SIZES = ['46 (S)', '48 (M)', '50 (L)', '52 (XL)'];
 
 const COLOR_MAP: Record<string, string> = {
   Black: '#000',
   Navy: '#1a2b5f',
   Grey: '#808080',
   White: '#fff',
+  Charcoal: '#36454f',
+  Brown: '#8b5a2b',
+  Beige: '#f5f0e8',
+  Olive: '#6b7c5c',
 };
 
 interface ProductFiltersProps {
   categories?: Array<{ name: string; slug: string }>;
+  availableSizes?: string[];
+  availableColors?: string[];
 }
 
-export function ProductFilters({ categories = [] }: ProductFiltersProps) {
+export function ProductFilters({ categories = [], availableSizes, availableColors }: ProductFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -78,34 +88,40 @@ export function ProductFilters({ categories = [] }: ProductFiltersProps) {
       <div className={styles.filterGroup}>
         <p className={styles.filterTitle}>Цвет</p>
         <ul className={styles.filterList}>
-          {COLORS.map((color) => (
-            <li
-              key={color}
-              className={`${styles.filterItem} ${activeColors.includes(color) ? styles.filterItemActive : ''}`}
-              onClick={() => updateParam('color', color, true)}
-            >
-              <span
-                className={styles.colorSwatch}
-                style={{ backgroundColor: COLOR_MAP[color] }}
-              />
-              {COLOR_LABELS[color] ?? color}
-            </li>
-          ))}
+          {COLORS.map((color) => {
+            const isDisabled = availableColors !== undefined && !availableColors.includes(color);
+            return (
+              <li
+                key={color}
+                className={`${styles.filterItem} ${activeColors.includes(color) ? styles.filterItemActive : ''} ${isDisabled ? styles.filterItemDisabled : ''}`}
+                onClick={() => !isDisabled && updateParam('color', color, true)}
+              >
+                <span
+                  className={styles.colorSwatch}
+                  style={{ backgroundColor: COLOR_MAP[color] }}
+                />
+                {COLOR_LABELS[color] ?? color}
+              </li>
+            );
+          })}
         </ul>
       </div>
 
       <div className={styles.filterGroup}>
         <p className={styles.filterTitle}>Размер</p>
         <ul className={styles.filterList}>
-          {SIZES.map((size) => (
-            <li
-              key={size}
-              className={`${styles.filterItem} ${activeSizes.includes(size) ? styles.filterItemActive : ''}`}
-              onClick={() => updateParam('size', size, true)}
-            >
-              {size}
-            </li>
-          ))}
+          {SIZES.map((size) => {
+            const isDisabled = availableSizes !== undefined && !availableSizes.includes(size);
+            return (
+              <li
+                key={size}
+                className={`${styles.filterItem} ${activeSizes.includes(size) ? styles.filterItemActive : ''} ${isDisabled ? styles.filterItemDisabled : ''}`}
+                onClick={() => !isDisabled && updateParam('size', size, true)}
+              >
+                {size}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </aside>

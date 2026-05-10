@@ -39,6 +39,7 @@ export interface Database {
           images: string[];
           colors: string[];
           sizes: string[];
+          size_stock: Record<string, number>;
           stock: number;
           status: 'active' | 'inactive';
           created_at: string;
@@ -55,6 +56,7 @@ export interface Database {
           images?: string[];
           colors?: string[];
           sizes?: string[];
+          size_stock?: Record<string, number>;
           stock?: number;
           status?: 'active' | 'inactive';
           created_at?: string;
@@ -71,6 +73,7 @@ export interface Database {
           images?: string[];
           colors?: string[];
           sizes?: string[];
+          size_stock?: Record<string, number>;
           stock?: number;
           status?: 'active' | 'inactive';
           created_at?: string;
@@ -125,6 +128,21 @@ export interface Database {
           status?: 'new' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
           created_at?: string;
           updated_at?: string;
+        };
+        Relationships: [];
+      };
+      site_settings: {
+        Row: {
+          key: string;
+          value: string | null;
+        };
+        Insert: {
+          key: string;
+          value?: string | null;
+        };
+        Update: {
+          key?: string;
+          value?: string | null;
         };
         Relationships: [];
       };
