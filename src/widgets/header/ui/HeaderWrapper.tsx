@@ -1,21 +1,20 @@
-import { supabase } from '@/shared/api/supabase'
-import type { Locale } from '@/shared/i18n/locales'
-import { Header } from './Header'
+import type { Locale } from "@/shared/i18n/locales";
+import { pick } from "@/shared/i18n/pick";
+import type { Category } from "@/entities/product/model/types";
+import { Header } from "./Header";
 
 interface Props {
-  lang: Locale
+  lang: Locale;
+  categories: Category[];
 }
 
-export async function HeaderWrapper({ lang }: Props) {
-  const { data: categories } = await supabase
-    .from('categories')
-    .select('name, slug')
-    .order('created_at')
-
-  const navLinks = (categories ?? []).map((cat) => ({
+export function HeaderWrapper({ lang, categories }: Props) {
+  const navLinks = categories.map((cat) => ({
     href: `/${lang}/${cat.slug}`,
-    label: cat.name,
-  }))
+    label: pick(lang, cat.name, cat.name_en),
+  }));
 
-  return <Header lang={lang} navLinks={navLinks.length > 0 ? navLinks : undefined} />
+  return (
+    <Header lang={lang} navLinks={navLinks.length > 0 ? navLinks : undefined} />
+  );
 }

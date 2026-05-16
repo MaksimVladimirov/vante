@@ -49,5 +49,20 @@
     "total": "Total",
     "checkout": "Checkout",
     "remove": "Remove"
+  },
+  "footer": {
+    "shop": "Shop",
+    "suits": "Suits",
+    "shirts": "Shirts",
+    "pants": "Trousers",
+    "accessories": "Accessories",
+    "help": "Help",
+    "shipping": "Shipping",
+    "returns": "Returns",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "contactUs": "Contact us",
+    "careers": "Careers",
+    "rights": "All rights reserved."
   }
 }

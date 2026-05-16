@@ -1,11 +1,32 @@
 import type { Locale } from './locales'
-import type ru from './dictionaries/ru.json'
 
-export type Dictionary = typeof ru
+export interface Dictionary {
+  categories: { heading: string; viewAll: string }
+  catalog: { sort: string; sortNewest: string; sortPriceAsc: string; sortPriceDesc: string }
+  filters: {
+    category: string; color: string; size: string
+    colors: Record<string, string>
+  }
+  product: {
+    notFound: string; loadMore: string; description: string; details: string
+    shipping: string; shippingText: string; detailsDefault: string
+    descriptionDefault: string; selectSize: string; outOfStock: string
+    addToCart: string; sizeGuide: string; color: string; size: string
+  }
+  cart: {
+    title: string; empty: string; subtotal: string; shipping: string
+    free: string; total: string; checkout: string; remove: string
+  }
+  footer: {
+    shop: string; suits: string; shirts: string; pants: string; accessories: string
+    help: string; shipping: string; returns: string; faq: string
+    contact: string; contactUs: string; careers: string; rights: string
+  }
+}
 
 const dictionaries: Record<Locale, () => Promise<Dictionary>> = {
-  ru: () => import('./dictionaries/ru.json').then((m) => m.default),
-  en: () => import('./dictionaries/en.json').then((m) => m.default),
+  ru: () => import('./dictionaries/ru.json').then((m) => m.default as Dictionary),
+  en: () => import('./dictionaries/en.json').then((m) => m.default as Dictionary),
 }
 
 export async function getDictionary(locale: Locale): Promise<Dictionary> {

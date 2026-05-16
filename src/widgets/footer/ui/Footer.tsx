@@ -1,72 +1,59 @@
 import Link from "next/link";
-// import { CarOutlined, ReloadOutlined, SafetyOutlined } from '@ant-design/icons';
+import { pick } from "@/shared/i18n/pick";
+import type { Locale } from "@/shared/i18n/locales";
+import type { Dictionary } from "@/shared/i18n/getDictionary";
+import type { Category } from "@/entities/product/model/types";
 import styles from "./Footer.module.css";
 
-// const features = [
-//   { icon: <CarOutlined />, title: 'Бесплатная доставка', desc: 'для всех заказов' },
-//   { icon: <ReloadOutlined />, title: 'Простой возврат', desc: 'в течение 30 дней' },
-//   { icon: <SafetyOutlined />, title: 'Безопасная оплата', desc: 'защищённый checkout' },
-// ];
+interface Props {
+  lang: Locale;
+  dict: Dictionary;
+  categories: Category[];
+}
 
-export function Footer() {
+export function Footer({ lang, dict, categories }: Props) {
+  const f = dict.footer;
+
   return (
     <footer className={styles.footer}>
-      {/* <div className={styles.features}>
-        <div className={styles.featuresInner}>
-          {features.map((f) => (
-            <div key={f.title} className={styles.featureItem}>
-              <span className={styles.featureIcon}>{f.icon}</span>
-              <div className={styles.featureText}>
-                <p className={styles.featureTitle}>{f.title}</p>
-                <p className={styles.featureDesc}>{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
-
       <div className={styles.main}>
         <div className={styles.mainInner}>
           <div>
-            <Link href="/" className={styles.brand}>
+            <Link href={`/${lang}`} className={styles.brand}>
               MVXIII
             </Link>
             <p className={styles.brandSub}>by Maxim Vladimirov</p>
           </div>
 
           <div className={styles.col}>
-            <p className={styles.colTitle}>Магазин</p>
-            <Link href="/suits" className={styles.colLink}>
-              Костюмы
+            <p className={styles.colTitle}>{f.shop}</p>
+            {categories.map((cat) => (
+              <Link key={cat.id} href={`/${lang}/${cat.slug}`} className={styles.colLink}>
+                {pick(lang, cat.name, cat.name_en)}
+              </Link>
+            ))}
+          </div>
+
+          <div className={styles.col}>
+            <p className={styles.colTitle}>{f.help}</p>
+            <Link href={`/${lang}/shipping`} className={styles.colLink}>
+              {f.shipping}
             </Link>
-            <Link href="/shirts" className={styles.colLink}>
-              Рубашки
+            <Link href={`/${lang}/returns`} className={styles.colLink}>
+              {f.returns}
             </Link>
-            <Link href="/accessories" className={styles.colLink}>
-              Аксессуары
+            <Link href={`/${lang}/faq`} className={styles.colLink}>
+              {f.faq}
             </Link>
           </div>
 
           <div className={styles.col}>
-            <p className={styles.colTitle}>Помощь</p>
-            <Link href="/shipping" className={styles.colLink}>
-              Доставка
+            <p className={styles.colTitle}>{f.contact}</p>
+            <Link href="mailto:hello@mvxiii.ru" className={styles.colLink}>
+              {f.contactUs}
             </Link>
-            <Link href="/returns" className={styles.colLink}>
-              Возврат
-            </Link>
-            <Link href="/faq" className={styles.colLink}>
-              FAQ
-            </Link>
-          </div>
-
-          <div className={styles.col}>
-            <p className={styles.colTitle}>Контакты</p>
-            <Link href="mailto:hello@vante.ru" className={styles.colLink}>
-              Написать нам
-            </Link>
-            <Link href="/careers" className={styles.colLink}>
-              Карьера
+            <Link href={`/${lang}/careers`} className={styles.colLink}>
+              {f.careers}
             </Link>
           </div>
         </div>
@@ -74,8 +61,7 @@ export function Footer() {
 
       <div className={styles.bottom}>
         <div className={styles.bottomInner}>
-          © {new Date().getFullYear()} MVXIII by Maxim Vladimirov. Все права
-          защищены.
+          © {new Date().getFullYear()} MVXIII by Maxim Vladimirov. {f.rights}
         </div>
       </div>
     </footer>
