@@ -1,13 +1,22 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Form, Input, message, Space, Divider } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
-import Image from 'next/image';
-import { supabase } from '@/shared/api/supabase';
-import { ImageUpload } from '@/shared/ui/ImageUpload';
-import type { Category } from '@/entities/product/model/types';
-import styles from '../products/page.module.css';
+import { useEffect, useState } from "react";
+import {
+  Table,
+  Button,
+  Modal,
+  Form,
+  Input,
+  message,
+  Space,
+  Divider,
+} from "antd";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import Image from "next/image";
+import { supabase } from "@/shared/api/supabase";
+import { ImageUpload } from "@/shared/ui/ImageUpload";
+import type { Category } from "@/entities/product/model/types";
+import styles from "../products/page.module.css";
 
 export function AdminCategoriesClient() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -17,13 +26,18 @@ export function AdminCategoriesClient() {
   const [form] = Form.useForm();
 
   const load = async () => {
-    setLoading(true);
-    const { data } = await supabase.from('categories').select('*').order('created_at');
+    const { data } = await supabase
+      .from("categories")
+      .select("*")
+      .order("created_at");
     setCategories((data as Category[]) ?? []);
     setLoading(false);
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void load();
+  }, []);
 
   const openCreate = () => {
     setEditing(null);
@@ -35,14 +49,19 @@ export function AdminCategoriesClient() {
     setEditing(cat);
     form.setFieldsValue({
       name: cat.name,
-      name_en: cat.name_en ?? '',
+      name_en: cat.name_en ?? "",
       slug: cat.slug,
-      image_url: cat.image_url ?? '',
+      image_url: cat.image_url ?? "",
     });
     setModalOpen(true);
   };
 
-  const handleSubmit = async (values: { name: string; name_en: string; slug: string; image_url: string }) => {
+  const handleSubmit = async (values: {
+    name: string;
+    name_en: string;
+    slug: string;
+    image_url: string;
+  }) => {
     const payload = {
       name: values.name,
       name_en: values.name_en || null,
@@ -50,13 +69,26 @@ export function AdminCategoriesClient() {
     };
 
     if (editing) {
-      await supabase.from('categories').update({ ...payload, slug: values.slug }).eq('id', editing.id);
-      message.success('Категория обновлена');
+      await supabase
+        .from("categories")
+        .update({ ...payload, slug: values.slug })
+        .eq("id", editing.id);
+      message.success("Категория обновлена");
     } else {
-      const slug = values.slug || values.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '');
-      const { error } = await supabase.from('categories').insert([{ ...payload, slug }]);
-      if (error) { message.error('Ошибка: ' + error.message); return; }
-      message.success('Категория добавлена');
+      const slug =
+        values.slug ||
+        values.name
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/gi, "");
+      const { error } = await supabase
+        .from("categories")
+        .insert([{ ...payload, slug }]);
+      if (error) {
+        message.error("Ошибка: " + error.message);
+        return;
+      }
+      message.success("Категория добавлена");
     }
     setModalOpen(false);
     load();
@@ -64,26 +96,48 @@ export function AdminCategoriesClient() {
 
   const columns = [
     {
-      title: 'Фото',
+      title: "Фото",
       width: 80,
       render: (_: unknown, row: Category) => {
         const src = row.image_url || `/images/category-${row.slug}.jpg`;
         return (
-          <div style={{ position: 'relative', width: 60, height: 60, background: '#f2f2f2' }}>
-            <Image src={src} alt={row.name} fill style={{ objectFit: 'cover' }} unoptimized />
+          <div
+            style={{
+              position: "relative",
+              width: 60,
+              height: 60,
+              background: "#f2f2f2",
+            }}
+          >
+            <Image
+              src={src}
+              alt={row.name}
+              fill
+              style={{ objectFit: "cover" }}
+              unoptimized
+            />
           </div>
         );
       },
     },
-    { title: 'RU', dataIndex: 'name' },
-    { title: 'EN', dataIndex: 'name_en', render: (v: string | null) => v || <span style={{ color: '#bbb' }}>—</span> },
-    { title: 'Slug', dataIndex: 'slug' },
+    { title: "RU", dataIndex: "name" },
     {
-      title: '',
-      key: 'action',
+      title: "EN",
+      dataIndex: "name_en",
+      render: (v: string | null) =>
+        v || <span style={{ color: "#bbb" }}>—</span>,
+    },
+    { title: "Slug", dataIndex: "slug" },
+    {
+      title: "",
+      key: "action",
       render: (_: unknown, record: Category) => (
         <Space>
-          <Button icon={<EditOutlined />} size="small" onClick={() => openEdit(record)} />
+          <Button
+            icon={<EditOutlined />}
+            size="small"
+            onClick={() => openEdit(record)}
+          />
         </Space>
       ),
     },
@@ -98,20 +152,30 @@ export function AdminCategoriesClient() {
         </Button>
       </div>
 
-      <Table columns={columns} dataSource={categories} rowKey="id" loading={loading} pagination={false} />
+      <Table
+        columns={columns}
+        dataSource={categories}
+        rowKey="id"
+        loading={loading}
+        pagination={false}
+      />
 
       <Modal
-        title={editing ? 'Редактировать категорию' : 'Добавить категорию'}
+        title={editing ? "Редактировать категорию" : "Добавить категорию"}
         open={modalOpen}
         onCancel={() => setModalOpen(false)}
         onOk={() => form.submit()}
-        okText={editing ? 'Сохранить' : 'Создать'}
+        okText={editing ? "Сохранить" : "Создать"}
         cancelText="Отмена"
         forceRender
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Divider>Русский</Divider>
-          <Form.Item name="name" label="Название (RU)" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Название (RU)"
+            rules={[{ required: true }]}
+          >
             <Input />
           </Form.Item>
 
@@ -125,7 +189,11 @@ export function AdminCategoriesClient() {
             name="slug"
             label="Slug (URL, латиницей)"
             rules={editing ? [{ required: true }] : []}
-            extra={!editing ? 'Оставьте пустым — сгенерируется автоматически' : undefined}
+            extra={
+              !editing
+                ? "Оставьте пустым — сгенерируется автоматически"
+                : undefined
+            }
           >
             <Input placeholder="suits" />
           </Form.Item>
