@@ -22,8 +22,8 @@ export function CartDrawer() {
       placement="right"
       onClose={closeCart}
       open={isOpen}
-      width={420}
       styles={{
+          wrapper: { width: 420 },
         header: {
           fontFamily: 'var(--font-serif)',
           fontSize: '16px',
