@@ -1,57 +1,62 @@
-import Link from "next/link";
-import { supabase } from "@/shared/api/supabase";
-import styles from "./Hero.module.css";
+import Link from 'next/link'
+import { supabase } from '@/shared/api/supabase'
+import type { Locale } from '@/shared/i18n/locales'
+import { pick } from '@/shared/i18n/pick'
+import styles from './Hero.module.css'
 
 const DEFAULTS = {
-  desktop: "/images/hero.jpg",
-  tablet: "/images/hero.jpg",
-  mobile: "/images/hero.jpg",
-  eyebrow: "Новая коллекция",
-  title: "Вне\nвремени",
-  subtitle: "Создано для уверенности.",
-  ctaText: "Смотреть коллекцию",
-  ctaLink: "/suits",
-};
+  ru: {
+    eyebrow: 'Новая коллекция',
+    title: 'Вне\nвремени',
+    subtitle: 'Создано для уверенности.',
+    ctaText: 'Смотреть коллекцию',
+    ctaLink: '/suits',
+  },
+  en: {
+    eyebrow: 'New Collection',
+    title: 'Beyond\nTime',
+    subtitle: 'Made for confidence.',
+    ctaText: 'View Collection',
+    ctaLink: '/suits',
+  },
+}
 
-async function getHeroSettings() {
+async function getHeroSettings(lang: Locale) {
   try {
-    const { data } = await supabase.from("site_settings").select("key, value");
-    const map: Record<string, string> = {};
-    data?.forEach((row) => {
-      map[row.key] = row.value ?? "";
-    });
+    const { data } = await supabase.from('site_settings').select('key, value')
+    const map: Record<string, string> = {}
+    data?.forEach((row) => { map[row.key] = row.value ?? '' })
 
-    const desktopImg =
-      map.hero_image_desktop || map.hero_image || DEFAULTS.desktop;
-    const tabletImg = map.hero_image_tablet || desktopImg;
-    const mobileImg = map.hero_image_mobile || tabletImg;
+    const def = DEFAULTS[lang]
+    const desktopImg = map.hero_image_desktop || map.hero_image || '/images/hero.jpg'
+    const tabletImg  = map.hero_image_tablet  || desktopImg
+    const mobileImg  = map.hero_image_mobile  || tabletImg
 
     return {
-      desktop: desktopImg,
-      tablet: tabletImg,
-      mobile: mobileImg,
-      eyebrow: map.hero_eyebrow || DEFAULTS.eyebrow,
-      title: map.hero_title || DEFAULTS.title,
-      subtitle: map.hero_subtitle || DEFAULTS.subtitle,
-      ctaText: map.hero_cta_text || DEFAULTS.ctaText,
-      ctaLink: map.hero_cta_link || DEFAULTS.ctaLink,
-    };
+      desktop:  desktopImg,
+      tablet:   tabletImg,
+      mobile:   mobileImg,
+      eyebrow:  pick(lang, map.hero_eyebrow,   map.hero_eyebrow_en)   || def.eyebrow,
+      title:    pick(lang, map.hero_title,     map.hero_title_en)     || def.title,
+      subtitle: pick(lang, map.hero_subtitle,  map.hero_subtitle_en)  || def.subtitle,
+      ctaText:  pick(lang, map.hero_cta_text,  map.hero_cta_text_en)  || def.ctaText,
+      ctaLink:  map.hero_cta_link || def.ctaLink,
+    }
   } catch {
-    return DEFAULTS;
+    return { ...DEFAULTS[lang], desktop: '/images/hero.jpg', tablet: '/images/hero.jpg', mobile: '/images/hero.jpg' }
   }
 }
 
-export async function Hero() {
-  const s = await getHeroSettings();
+interface Props { lang: Locale }
+
+export async function Hero({ lang }: Props) {
+  const s = await getHeroSettings(lang)
 
   return (
     <section className={styles.hero}>
       <picture className={styles.picture}>
-        {/* Desktop ≥ 992px */}
         <source media="(min-width: 992px)" srcSet={s.desktop} />
-        {/* Tablet 768–991px */}
         <source media="(min-width: 768px)" srcSet={s.tablet} />
-        {/* Mobile < 768px */}
         <img
           src={s.mobile}
           alt="MVXIII hero"
@@ -64,7 +69,7 @@ export async function Hero() {
       <div className={styles.content}>
         <p className={styles.eyebrow}>{s.eyebrow}</p>
         <h1 className={styles.title}>
-          {s.title.split("\n").map((line, i, arr) => (
+          {s.title.split('\n').map((line, i, arr) => (
             <span key={i}>
               {line}
               {i < arr.length - 1 && <br />}
@@ -72,10 +77,10 @@ export async function Hero() {
           ))}
         </h1>
         <p className={styles.subtitle}>{s.subtitle}</p>
-        <Link href={s.ctaLink} className={styles.cta}>
+        <Link href={`/${lang}/${s.ctaLink.replace(/^\//, '')}`} className={styles.cta}>
           {s.ctaText}
         </Link>
       </div>
     </section>
-  );
+  )
 }

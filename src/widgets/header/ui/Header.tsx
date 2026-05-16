@@ -4,14 +4,34 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingOutlined, CloseOutlined } from "@ant-design/icons";
+import { useRouter } from "next/navigation";
 import { useCartTotals, useCartStore } from "@/entities/cart/model/store";
+import type { Locale } from "@/shared/i18n/locales";
+import { LOCALES } from "@/shared/i18n/locales";
 import styles from "./Header.module.css";
 
+const FALLBACK_NAV: Record<Locale, Array<{ href: string; label: string }>> = {
+  ru: [
+    { href: "/ru/accessories", label: "Аксессуары" },
+    { href: "/ru/pants", label: "Брюки" },
+    { href: "/ru/suits", label: "Костюмы" },
+    { href: "/ru/shirts", label: "Рубашки" },
+  ],
+  en: [
+    { href: "/en/accessories", label: "Accessories" },
+    { href: "/en/pants", label: "Trousers" },
+    { href: "/en/suits", label: "Suits" },
+    { href: "/en/shirts", label: "Shirts" },
+  ],
+};
+
 interface HeaderProps {
+  lang: Locale;
   navLinks?: Array<{ href: string; label: string }>;
 }
 
-export function Header({ navLinks }: HeaderProps) {
+export function Header({ lang, navLinks }: HeaderProps) {
+  const links = navLinks ?? FALLBACK_NAV[lang];
   const pathname = usePathname();
   const { itemCount } = useCartTotals();
   const openCart = useCartStore((s) => s.openCart);
@@ -40,8 +60,16 @@ export function Header({ navLinks }: HeaderProps) {
     };
   }, [menuOpen]);
 
-  const isHome = pathname === "/";
+  const isHome = pathname === `/${lang}` || pathname === "/";
   const solid = !isHome || scrolled || menuOpen;
+
+  const router = useRouter();
+
+  const handleLangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const next = e.target.value as Locale;
+    const target = pathname?.replace(`/${lang}`, `/${next}`) || `/${next}`;
+    router.push(target);
+  };
 
   return (
     <>
@@ -56,7 +84,7 @@ export function Header({ navLinks }: HeaderProps) {
           <button
             className={styles.btn}
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             {menuOpen ? (
               <CloseOutlined style={{ fontSize: 16 }} />
@@ -69,18 +97,34 @@ export function Header({ navLinks }: HeaderProps) {
             )}
           </button>
 
-          <Link href="/" className={styles.logo}>
+          <Link href={`/${lang}`} className={styles.logo} onClick={() => setMenuOpen(false)}>
             MVXIII
           </Link>
 
-          <button
-            className={`${styles.btn} ${styles.cartBtn}`}
-            onClick={openCart}
-            aria-label="Открыть корзину"
-          >
-            <ShoppingOutlined style={{ fontSize: 18 }} />
-            {itemCount > 0 && <span className={styles.badge}>{itemCount}</span>}
-          </button>
+          <div className={styles.actions}>
+            <select
+              className={styles.langSelect}
+              value={lang}
+              onChange={handleLangChange}
+              aria-label="Language"
+            >
+              {LOCALES.map((l) => (
+                <option key={l} value={l}>
+                  {l.toUpperCase()}
+                </option>
+              ))}
+            </select>
+            <button
+              className={`${styles.btn} ${styles.cartBtn}`}
+              onClick={openCart}
+              aria-label="Open cart"
+            >
+              <ShoppingOutlined style={{ fontSize: 18 }} />
+              {itemCount > 0 && (
+                <span className={styles.badge}>{itemCount}</span>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -89,17 +133,16 @@ export function Header({ navLinks }: HeaderProps) {
         aria-hidden={!menuOpen}
       >
         <nav className={styles.overlayNav}>
-          {navLinks &&
-            navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={styles.overlayLink}
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={styles.overlayLink}
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </>

@@ -1,20 +1,24 @@
-import { Suspense } from "react";
 import { fetchProducts } from "@/entities/product/model/api";
 import { ProductFilters } from "@/features/filter-products/ui/ProductFilters";
 import { ProductGrid } from "@/widgets/product-grid/ui/ProductGrid";
 import { CatalogSortSelect } from "./CatalogSortSelect";
 import type { ProductFilters as Filters } from "@/entities/product/model/types";
+import type { Locale } from "@/shared/i18n/locales";
+import type { Dictionary } from "@/shared/i18n/getDictionary";
 import styles from "../catalog.module.css";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
 interface CatalogPageProps {
+  lang: Locale;
+  dict: Dictionary;
   categorySlug: string;
   title: string;
   searchParams: SearchParams;
 }
 
 export async function CatalogPage({
+  dict,
   categorySlug,
   title,
   searchParams,
@@ -25,21 +29,12 @@ export async function CatalogPage({
   ) as Filters["sortBy"];
 
   const colorRaw = searchParams.color;
-  const colors = Array.isArray(colorRaw)
-    ? colorRaw
-    : colorRaw
-      ? [colorRaw]
-      : [];
+  const colors = Array.isArray(colorRaw) ? colorRaw : colorRaw ? [colorRaw] : [];
 
   const sizeRaw = searchParams.size;
   const sizes = Array.isArray(sizeRaw) ? sizeRaw : sizeRaw ? [sizeRaw] : [];
 
-  const products = await fetchProducts({
-    category: categorySlug,
-    colors,
-    sizes,
-    sortBy,
-  });
+  const products = await fetchProducts({ category: categorySlug, colors, sizes, sortBy });
 
   const availableColors = [...new Set(products.flatMap((p) => p.colors))];
   const availableSizes = [...new Set(products.flatMap((p) => p.sizes))];
@@ -48,8 +43,7 @@ export async function CatalogPage({
     <div className={styles.page}>
       <div className={styles.topBar}>
         <h1 className={styles.pageTitle}>{title}</h1>
-
-        <CatalogSortSelect currentSort={sortBy} />
+        <CatalogSortSelect currentSort={sortBy} dict={dict} />
       </div>
 
       <div className={styles.body}>
@@ -57,7 +51,6 @@ export async function CatalogPage({
           availableSizes={availableSizes}
           availableColors={availableColors}
         />
-
         <div className={styles.products}>
           <ProductGrid products={products} />
         </div>

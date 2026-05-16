@@ -1,26 +1,28 @@
-'use client';
+'use client'
 
-import { Drawer } from 'antd';
-import Image from 'next/image';
-import { CloseOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import { useCartStore, useCartTotals } from '@/entities/cart/model/store';
-import styles from './CartDrawer.module.css';
+import { Drawer } from 'antd'
+import Image from 'next/image'
+import { CloseOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons'
+import { useCartStore, useCartTotals } from '@/entities/cart/model/store'
+import { useLang } from '@/shared/i18n/LangContext'
+import styles from './CartDrawer.module.css'
 
 export function CartDrawer() {
-  const items = useCartStore((s) => s.items);
-  const isOpen = useCartStore((s) => s.isOpen);
-  const closeCart = useCartStore((s) => s.closeCart);
-  const removeItem = useCartStore((s) => s.removeItem);
-  const updateQuantity = useCartStore((s) => s.updateQuantity);
-  const { subtotal, shipping, total } = useCartTotals();
+  const { dict } = useLang()
+  const items = useCartStore((s) => s.items)
+  const isOpen = useCartStore((s) => s.isOpen)
+  const closeCart = useCartStore((s) => s.closeCart)
+  const removeItem = useCartStore((s) => s.removeItem)
+  const updateQuantity = useCartStore((s) => s.updateQuantity)
+  const { subtotal, shipping, total } = useCartTotals()
 
   return (
     <Drawer
-      title={`Корзина (${items.length})`}
+      title={`${dict.cart.title} (${items.length})`}
       placement="right"
       onClose={closeCart}
       open={isOpen}
-      style={{ width: 420 }}
+      width={420}
       styles={{
         header: {
           fontFamily: 'var(--font-serif)',
@@ -35,7 +37,7 @@ export function CartDrawer() {
     >
       {items.length === 0 ? (
         <div className={styles.empty}>
-          <p className={styles.emptyText}>Корзина пуста</p>
+          <p className={styles.emptyText}>{dict.cart.empty}</p>
         </div>
       ) : (
         <>
@@ -74,11 +76,13 @@ export function CartDrawer() {
                   <button
                     className={styles.removeBtn}
                     onClick={() => removeItem(item.id)}
-                    aria-label="Удалить"
+                    aria-label={dict.cart.remove}
                   >
                     <CloseOutlined />
                   </button>
-                  <span className={styles.itemPrice}>{(item.price * item.quantity).toLocaleString('ru-RU')} ₽</span>
+                  <span className={styles.itemPrice}>
+                    {(item.price * item.quantity).toLocaleString('ru-RU')} ₽
+                  </span>
                 </div>
               </div>
             ))}
@@ -86,22 +90,24 @@ export function CartDrawer() {
 
           <div className={styles.summary}>
             <div className={styles.summaryRow}>
-              <span>Подытог</span>
+              <span>{dict.cart.subtotal}</span>
               <span>{subtotal.toLocaleString('ru-RU')} ₽</span>
             </div>
             <div className={styles.summaryRow}>
-              <span>Доставка</span>
-              <span>{shipping === 0 ? 'Бесплатно' : `${shipping.toLocaleString('ru-RU')} ₽`}</span>
+              <span>{dict.cart.shipping}</span>
+              <span>
+                {shipping === 0 ? dict.cart.free : `${shipping.toLocaleString('ru-RU')} ₽`}
+              </span>
             </div>
             <div className={`${styles.summaryRow} ${styles.summaryRowTotal}`}>
-              <span>Итого</span>
+              <span>{dict.cart.total}</span>
               <span>{total.toLocaleString('ru-RU')} ₽</span>
             </div>
           </div>
 
-          <button className={styles.checkoutBtn}>Оформить заказ</button>
+          <button className={styles.checkoutBtn}>{dict.cart.checkout}</button>
         </>
       )}
     </Drawer>
-  );
+  )
 }

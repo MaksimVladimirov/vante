@@ -1,0 +1,53 @@
+{
+  "categories": {
+    "heading": "Categories",
+    "viewAll": "View all"
+  },
+  "catalog": {
+    "sort": "Sort",
+    "sortNewest": "Newest",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low"
+  },
+  "filters": {
+    "category": "Category",
+    "color": "Color",
+    "size": "Size",
+    "colors": {
+      "Black": "Black",
+      "Navy": "Navy",
+      "Grey": "Grey",
+      "White": "White",
+      "Charcoal": "Charcoal",
+      "Brown": "Brown",
+      "Beige": "Beige",
+      "Olive": "Olive"
+    }
+  },
+  "product": {
+    "notFound": "No products found",
+    "loadMore": "Load more",
+    "description": "Description",
+    "details": "Details",
+    "shipping": "Shipping & Returns",
+    "shippingText": "Free shipping on all orders. Easy returns within 30 days.",
+    "detailsDefault": "Dry clean only. Made in Italy.",
+    "descriptionDefault": "A timeless piece crafted from first-class materials.",
+    "selectSize": "Select a size",
+    "outOfStock": "Out of stock",
+    "addToCart": "Add to Cart",
+    "sizeGuide": "Size guide",
+    "color": "Color",
+    "size": "Size"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "free": "Free",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove"
+  }
+}

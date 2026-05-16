@@ -3,13 +3,15 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Select } from "antd";
 import type { ProductFilters } from "@/entities/product/model/types";
+import type { Dictionary } from "@/shared/i18n/getDictionary";
 import styles from "../catalog.module.css";
 
 interface Props {
   currentSort: ProductFilters["sortBy"];
+  dict: Dictionary;
 }
 
-export function CatalogSortSelect({ currentSort }: Props) {
+export function CatalogSortSelect({ currentSort, dict }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -22,14 +24,14 @@ export function CatalogSortSelect({ currentSort }: Props) {
 
   return (
     <div className={styles.sortWrapper}>
-      <span className={styles.sortLabel}>Сортировка</span>
+      <span className={styles.sortLabel}>{dict.catalog.sort}</span>
       <Select
         value={currentSort}
         onChange={handleChange}
         options={[
-          { value: "newest", label: "Новинки" },
-          { value: "price_asc", label: "Цена: по возрастанию" },
-          { value: "price_desc", label: "Цена: по убыванию" },
+          { value: "newest", label: dict.catalog.sortNewest },
+          { value: "price_asc", label: dict.catalog.sortPriceAsc },
+          { value: "price_desc", label: dict.catalog.sortPriceDesc },
         ]}
         style={{ width: 200 }}
         variant="borderless"

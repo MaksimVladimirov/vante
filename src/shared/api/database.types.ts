@@ -7,6 +7,7 @@ export interface Database {
         Row: {
           id: string;
           name: string;
+          name_en: string | null;
           slug: string;
           image_url: string | null;
           created_at: string;
@@ -14,6 +15,7 @@ export interface Database {
         Insert: {
           id?: string;
           name: string;
+          name_en?: string | null;
           slug: string;
           image_url?: string | null;
           created_at?: string;
@@ -21,6 +23,7 @@ export interface Database {
         Update: {
           id?: string;
           name?: string;
+          name_en?: string | null;
           slug?: string;
           image_url?: string | null;
           created_at?: string;
@@ -31,9 +34,12 @@ export interface Database {
         Row: {
           id: string;
           name: string;
+          name_en: string | null;
           slug: string;
           description: string | null;
+          description_en: string | null;
           details: string | null;
+          details_en: string | null;
           price: number;
           category_id: string;
           images: string[];
@@ -48,9 +54,12 @@ export interface Database {
         Insert: {
           id?: string;
           name: string;
+          name_en?: string | null;
           slug: string;
           description?: string | null;
+          description_en?: string | null;
           details?: string | null;
+          details_en?: string | null;
           price: number;
           category_id: string;
           images?: string[];
@@ -65,9 +74,12 @@ export interface Database {
         Update: {
           id?: string;
           name?: string;
+          name_en?: string | null;
           slug?: string;
           description?: string | null;
+          description_en?: string | null;
           details?: string | null;
+          details_en?: string | null;
           price?: number;
           category_id?: string;
           images?: string[];

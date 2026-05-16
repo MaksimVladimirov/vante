@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ProductCard } from '@/entities/product/ui/ProductCard';
-import type { Product } from '@/entities/product/model/types';
-import styles from './ProductGrid.module.css';
+import { useState } from "react";
+import { ProductCard } from "@/entities/product/ui/ProductCard";
+import type { Product } from "@/entities/product/model/types";
+import { useLang } from "@/shared/i18n/LangContext";
+import styles from "./ProductGrid.module.css";
 
 const PAGE_SIZE = 6;
 
@@ -13,6 +14,7 @@ interface ProductGridProps {
 }
 
 export function ProductGrid({ products, loading }: ProductGridProps) {
+  const { lang, dict } = useLang();
   const [visible, setVisible] = useState(PAGE_SIZE);
 
   if (loading) {
@@ -28,7 +30,7 @@ export function ProductGrid({ products, loading }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <div className={styles.grid}>
-        <p className={styles.empty}>Товары не найдены</p>
+        <p className={styles.empty}>{dict.product.notFound}</p>
       </div>
     );
   }
@@ -37,13 +39,16 @@ export function ProductGrid({ products, loading }: ProductGridProps) {
     <>
       <div className={styles.grid}>
         {products.slice(0, visible).map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} lang={lang} />
         ))}
       </div>
       {visible < products.length && (
         <div className={styles.loadMore}>
-          <button className={styles.loadMoreBtn} onClick={() => setVisible((v) => v + PAGE_SIZE)}>
-            Загрузить ещё
+          <button
+            className={styles.loadMoreBtn}
+            onClick={() => setVisible((v) => v + PAGE_SIZE)}
+          >
+            {dict.product.loadMore}
           </button>
         </div>
       )}

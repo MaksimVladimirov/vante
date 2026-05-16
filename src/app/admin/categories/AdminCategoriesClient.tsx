@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Table, Button, Modal, Form, Input, message, Space } from 'antd';
+import { Table, Button, Modal, Form, Input, message, Space, Divider } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import { supabase } from '@/shared/api/supabase';
@@ -33,29 +33,29 @@ export function AdminCategoriesClient() {
 
   const openEdit = (cat: Category) => {
     setEditing(cat);
-    form.setFieldsValue({ name: cat.name, slug: cat.slug, image_url: cat.image_url ?? '' });
+    form.setFieldsValue({
+      name: cat.name,
+      name_en: cat.name_en ?? '',
+      slug: cat.slug,
+      image_url: cat.image_url ?? '',
+    });
     setModalOpen(true);
   };
 
-  const handleSubmit = async (values: { name: string; slug: string; image_url: string }) => {
+  const handleSubmit = async (values: { name: string; name_en: string; slug: string; image_url: string }) => {
+    const payload = {
+      name: values.name,
+      name_en: values.name_en || null,
+      image_url: values.image_url || null,
+    };
+
     if (editing) {
-      await supabase.from('categories').update({
-        name: values.name,
-        slug: values.slug,
-        image_url: values.image_url || null,
-      }).eq('id', editing.id);
+      await supabase.from('categories').update({ ...payload, slug: values.slug }).eq('id', editing.id);
       message.success('Категория обновлена');
     } else {
       const slug = values.slug || values.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/gi, '');
-      const { error } = await supabase.from('categories').insert([{
-        name: values.name,
-        slug,
-        image_url: values.image_url || null,
-      }]);
-      if (error) {
-        message.error('Ошибка: ' + error.message);
-        return;
-      }
+      const { error } = await supabase.from('categories').insert([{ ...payload, slug }]);
+      if (error) { message.error('Ошибка: ' + error.message); return; }
       message.success('Категория добавлена');
     }
     setModalOpen(false);
@@ -75,18 +75,9 @@ export function AdminCategoriesClient() {
         );
       },
     },
-    { title: 'Название', dataIndex: 'name' },
+    { title: 'RU', dataIndex: 'name' },
+    { title: 'EN', dataIndex: 'name_en', render: (v: string | null) => v || <span style={{ color: '#bbb' }}>—</span> },
     { title: 'Slug', dataIndex: 'slug' },
-    {
-      title: 'URL фото',
-      dataIndex: 'image_url',
-      render: (v: string | null) =>
-        v ? (
-          <span style={{ fontSize: 12, color: '#666' }}>{v.length > 50 ? v.slice(0, 50) + '…' : v}</span>
-        ) : (
-          <span style={{ color: '#bbb' }}>не задано</span>
-        ),
-    },
     {
       title: '',
       key: 'action',
@@ -119,16 +110,24 @@ export function AdminCategoriesClient() {
         forceRender
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
-          <Form.Item name="name" label="Название" rules={[{ required: true }]}>
+          <Divider>Русский</Divider>
+          <Form.Item name="name" label="Название (RU)" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
+
+          <Divider>English</Divider>
+          <Form.Item name="name_en" label="Name (EN)">
+            <Input placeholder="e.g. Suits" />
+          </Form.Item>
+
+          <Divider />
           <Form.Item
             name="slug"
             label="Slug (URL, латиницей)"
             rules={editing ? [{ required: true }] : []}
-            extra={!editing ? 'Оставьте пустым — сгенерируется автоматически из названия' : undefined}
+            extra={!editing ? 'Оставьте пустым — сгенерируется автоматически' : undefined}
           >
-            <Input placeholder="например: suits" />
+            <Input placeholder="suits" />
           </Form.Item>
           <Form.Item name="image_url" label="Фото категории">
             <ImageUpload folder="categories" />
