@@ -1,10 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
 import { supabase } from "@/shared/api/supabase";
 import styles from "./Hero.module.css";
 
 const DEFAULTS = {
-  image: "/images/hero.jpg",
+  desktop: "/images/hero.jpg",
+  tablet: "/images/hero.jpg",
+  mobile: "/images/hero.jpg",
   eyebrow: "Новая коллекция",
   title: "Вне\nвремени",
   subtitle: "Создано для уверенности.",
@@ -19,8 +20,16 @@ async function getHeroSettings() {
     data?.forEach((row) => {
       map[row.key] = row.value ?? "";
     });
+
+    const desktopImg =
+      map.hero_image_desktop || map.hero_image || DEFAULTS.desktop;
+    const tabletImg = map.hero_image_tablet || desktopImg;
+    const mobileImg = map.hero_image_mobile || tabletImg;
+
     return {
-      image: map.hero_image || DEFAULTS.image,
+      desktop: desktopImg,
+      tablet: tabletImg,
+      mobile: mobileImg,
       eyebrow: map.hero_eyebrow || DEFAULTS.eyebrow,
       title: map.hero_title || DEFAULTS.title,
       subtitle: map.hero_subtitle || DEFAULTS.subtitle,
@@ -34,18 +43,24 @@ async function getHeroSettings() {
 
 export async function Hero() {
   const s = await getHeroSettings();
-  const isExternal = s.image.startsWith("http");
 
   return (
     <section className={styles.hero}>
-      <Image
-        src={s.image}
-        alt="MVXIII hero"
-        fill
-        className={styles.bg}
-        priority
-        unoptimized={isExternal}
-      />
+      <picture className={styles.picture}>
+        {/* Desktop ≥ 992px */}
+        <source media="(min-width: 992px)" srcSet={s.desktop} />
+        {/* Tablet 768–991px */}
+        <source media="(min-width: 768px)" srcSet={s.tablet} />
+        {/* Mobile < 768px */}
+        <img
+          src={s.mobile}
+          alt="MVXIII hero"
+          className={styles.bg}
+          fetchPriority="high"
+          loading="eager"
+        />
+      </picture>
+
       <div className={styles.content}>
         <p className={styles.eyebrow}>{s.eyebrow}</p>
         <h1 className={styles.title}>

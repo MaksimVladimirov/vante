@@ -1,132 +1,148 @@
+/* ─── Base ─────────────────────────────────────────────── */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: var(--z-header);
-  background-color: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
+  transition:
+    transform 0.35s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+  --fg: var(--color-white);
 }
 
+.transparent {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.solid {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  --fg: var(--color-black);
+}
+
+.visible { transform: translateY(0); }
+.hidden  { transform: translateY(-100%); }
+
+/* ─── Inner: burger | logo | cart ──────────────────────── */
 .inner {
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--container-padding);
-  height: 56px;
-  display: flex;
+  height: 60px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-8);
 }
 
+/* ─── Logo (center) ────────────────────────────────────── */
 .logo {
   font-family: var(--font-serif);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-regular);
   letter-spacing: var(--letter-spacing-widest);
   text-decoration: none;
-  color: var(--color-text-primary);
-  flex-shrink: 0;
+  text-align: center;
+  color: var(--fg);
   line-height: 1;
+  transition: color 0.3s ease;
 }
 
-.nav {
+/* ─── Icon buttons ──────────────────────────────────────── */
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-2);
   display: flex;
+  align-items: center;
+  color: var(--fg);
+  transition: color 0.3s ease;
+}
+
+.cartBtn {
+  justify-content: flex-end;
+  position: relative;
+}
+
+/* ─── Hamburger ─────────────────────────────────────────── */
+.burger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 22px;
+}
+
+.burger span {
+  display: block;
+  height: 1px;
+  background: currentColor;
+  width: 100%;
+}
+
+/* ─── Cart badge ────────────────────────────────────────── */
+.badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+.solid .badge {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+/* ─── Full-screen overlay ───────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-header) - 10);
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 60px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlayNav {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: var(--spacing-8);
 }
 
-.navLink {
-  font-family: var(--font-sans);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: var(--letter-spacing-wider);
+.overlayLink {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--font-size-2xl), 5vw, var(--font-size-4xl));
+  font-weight: var(--font-weight-light);
+  letter-spacing: var(--letter-spacing-widest);
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--color-text-primary);
-  transition: color var(--transition-fast);
-  position: relative;
+  color: var(--color-black);
+  transition: opacity 0.2s ease;
 }
 
-.navLink::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background-color: var(--color-black);
-  transition: width var(--transition-base);
-}
-
-.navLink:hover::after,
-.navLinkActive::after {
-  width: 100%;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-4);
-}
-
-.bagButton {
-  font-family: var(--font-sans);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: var(--letter-spacing-wider);
-  text-transform: uppercase;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text-primary);
-  padding: var(--spacing-2);
-  transition: color var(--transition-fast);
-}
-
-.bagButton:hover {
-  color: var(--color-gray-600);
-}
-
-.mobileMenuBtn {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--spacing-2);
-  color: var(--color-text-primary);
-}
-
-.mobileNav {
-  display: none;
-  flex-direction: column;
-  padding: var(--spacing-4) var(--container-padding);
-  border-top: 1px solid var(--color-border);
-  gap: var(--spacing-4);
-}
-
-.mobileNavOpen {
-  display: flex;
-}
-
-.mobileNavLink {
-  font-family: var(--font-sans);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: var(--letter-spacing-wider);
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-text-primary);
-  padding: var(--spacing-3) 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-@media (max-width: 767px) {
-  .nav {
-    display: none;
-  }
-
-  .mobileMenuBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.overlayLink:hover {
+  opacity: 0.4;
 }
