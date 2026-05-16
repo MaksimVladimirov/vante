@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { supabase } from "@/shared/api/supabase";
 import { Card, Statistic, Row, Col } from "antd";
 import {
