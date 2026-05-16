@@ -65,6 +65,9 @@
   padding: var(--spacing-6);
   border-top: 1px solid rgba(255,255,255,0.1);
   margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
 }
 
 .storeLink {
@@ -78,6 +81,25 @@
 
 .storeLink:hover {
   color: var(--color-white);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: rgba(255,255,255,0.35);
+  letter-spacing: var(--letter-spacing-wide);
+  padding: 0;
+  transition: color var(--transition-fast);
+}
+
+.logoutButton:hover {
+  color: rgba(255, 80, 80, 0.9);
 }
 
 @media (max-width: 767px) {

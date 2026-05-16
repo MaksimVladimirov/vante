@@ -1,26 +1,28 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import crypto from 'crypto'
+import { createSupabaseServerClient } from '@/shared/api/supabase-server'
 
 export async function loginAction(_: unknown, formData: FormData) {
+  const email = formData.get('email') as string
   const password = formData.get('password') as string
 
-  if (!password || password !== process.env.ADMIN_PASSWORD) {
-    return { error: 'Неверный пароль' }
+  if (!email || !password) {
+    return { error: 'Введите email и пароль' }
   }
 
-  const token = crypto.createHash('sha256').update(password).digest('hex')
+  const supabase = await createSupabaseServerClient()
+  const { error } = await supabase.auth.signInWithPassword({ email, password })
 
-  const cookieStore = await cookies()
-  cookieStore.set('admin_auth', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 30,
-    path: '/',
-  })
+  if (error) {
+    return { error: 'Неверный email или пароль' }
+  }
 
   redirect('/admin')
+}
+
+export async function logoutAction() {
+  const supabase = await createSupabaseServerClient()
+  await supabase.auth.signOut()
+  redirect('/admin/login')
 }

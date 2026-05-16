@@ -8,7 +8,9 @@ import {
   TagsOutlined,
   PictureOutlined,
   FolderOutlined,
+  LogoutOutlined,
 } from '@ant-design/icons';
+import { logoutAction } from '@/app/admin/login/actions';
 import styles from './AdminSidebar.module.css';
 
 const navItems = [
@@ -48,6 +50,12 @@ export function AdminSidebar() {
 
       <div className={styles.storeLinkWrapper}>
         <Link href="/" className={styles.storeLink}>← В магазин</Link>
+        <form action={logoutAction}>
+          <button type="submit" className={styles.logoutButton}>
+            <LogoutOutlined />
+            Выйти
+          </button>
+        </form>
       </div>
     </aside>
   );
