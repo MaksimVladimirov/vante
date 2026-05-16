@@ -34,7 +34,7 @@ export function AdminSidebar() {
       <nav className={styles.nav}>
         {navItems.map((item) => {
           const isActive =
-            item.href === '/admin' ? pathname === '/admin' : pathname.startsWith(item.href);
+            item.href === '/admin' ? pathname === '/admin' : pathname?.startsWith(item.href);
           return (
             <Link
               key={item.href}
