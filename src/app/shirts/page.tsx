@@ -1,12 +1,14 @@
-import { Suspense } from 'react';
-import { CatalogPage } from '@/app/_components/CatalogPage';
+import { CatalogPage } from "@/app/_components/CatalogPage";
 
-export const metadata = { title: 'Рубашки — vanté' };
+export const metadata = { title: "Рубашки — MVXIII" };
 
-export default function ShirtsPage() {
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function ShirtsPage({ searchParams }: PageProps) {
+  const params = await searchParams;
   return (
-    <Suspense>
-      <CatalogPage categorySlug="shirts" title="Рубашки" />
-    </Suspense>
+    <CatalogPage categorySlug="shirts" title="Рубашки" searchParams={params} />
   );
 }

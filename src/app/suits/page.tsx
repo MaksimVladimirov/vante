@@ -1,12 +1,14 @@
-import { Suspense } from 'react';
-import { CatalogPage } from '@/app/_components/CatalogPage';
+import { CatalogPage } from "@/app/_components/CatalogPage";
 
-export const metadata = { title: 'Костюмы — vanté' };
+export const metadata = { title: "Костюмы — MVXIII" };
 
-export default function SuitsPage() {
+type PageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+export default async function SuitsPage({ searchParams }: PageProps) {
+  const params = await searchParams;
   return (
-    <Suspense>
-      <CatalogPage categorySlug="suits" title="Костюмы" />
-    </Suspense>
+    <CatalogPage categorySlug="suits" title="Костюмы" searchParams={params} />
   );
 }

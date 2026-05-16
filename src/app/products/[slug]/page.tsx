@@ -1,9 +1,9 @@
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import { Collapse } from 'antd';
-import { fetchProductBySlug } from '@/entities/product/model/api';
-import { AddToCart } from '@/features/add-to-cart/ui/AddToCart';
-import styles from './page.module.css';
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import { Collapse } from "antd";
+import { fetchProductBySlug } from "@/entities/product/model/api";
+import { AddToCart } from "@/features/add-to-cart/ui/AddToCart";
+import styles from "./page.module.css";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -37,13 +37,15 @@ export default async function ProductPage({ params }: Props) {
         )}
       </div>
 
-      {/* <div className={styles.info}>
+      <div className={styles.info}>
         <div className={styles.infoSticky}>
           {product.category && (
             <p className={styles.category}>{product.category.name}</p>
           )}
           <h1 className={styles.name}>{product.name}</h1>
-          <p className={styles.price}>{product.price.toLocaleString('ru-RU')} ₽</p>
+          <p className={styles.price}>
+            {product.price.toLocaleString("ru-RU")} ₽
+          </p>
 
           <AddToCart product={product} />
 
@@ -52,29 +54,32 @@ export default async function ProductPage({ params }: Props) {
               ghost
               items={[
                 {
-                  key: 'description',
-                  label: 'Описание',
+                  key: "description",
+                  label: "Описание",
                   children: (
                     <p className={styles.accordionText}>
-                      {product.description || 'Вневременная вещь из первоклассных материалов.'}
+                      {product.description ||
+                        "Вневременная вещь из первоклассных материалов."}
                     </p>
                   ),
                 },
                 {
-                  key: 'details',
-                  label: 'Детали',
+                  key: "details",
+                  label: "Детали",
                   children: (
                     <p className={styles.accordionText}>
-                      {product.details || 'Только сухая чистка. Произведено в Италии.'}
+                      {product.details ||
+                        "Только сухая чистка. Произведено в Италии."}
                     </p>
                   ),
                 },
                 {
-                  key: 'shipping',
-                  label: 'Доставка и возврат',
+                  key: "shipping",
+                  label: "Доставка и возврат",
                   children: (
                     <p className={styles.accordionText}>
-                      Бесплатная доставка для всех заказов. Простой возврат в течение 30 дней.
+                      Бесплатная доставка для всех заказов. Простой возврат в
+                      течение 30 дней.
                     </p>
                   ),
                 },
@@ -82,7 +87,7 @@ export default async function ProductPage({ params }: Props) {
             />
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
