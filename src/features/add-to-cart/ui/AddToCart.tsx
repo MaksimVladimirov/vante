@@ -3,19 +3,9 @@
 import { useState } from 'react'
 import { useCartStore } from '@/entities/cart/model/store'
 import { useLang } from '@/shared/i18n/LangContext'
+import { toHex } from '@/shared/lib/color'
 import type { Product } from '@/entities/product/model/types'
 import styles from './AddToCart.module.css'
-
-const COLOR_MAP: Record<string, string> = {
-  Black: '#000',
-  Navy: '#1a2b5f',
-  Grey: '#808080',
-  White: '#fff',
-  Charcoal: '#36454f',
-  Brown: '#8b5a2b',
-  Beige: '#f5f0e8',
-  Olive: '#6b7c5c',
-}
 
 interface AddToCartProps {
   product: Product
@@ -45,15 +35,18 @@ export function AddToCart({ product }: AddToCartProps) {
     })
   }
 
-  const colorLabel =
-    dict.filters.colors[selectedColor as keyof typeof dict.filters.colors] ?? selectedColor
-
   return (
     <div className={styles.wrapper}>
       {product.colors.length > 0 && (
         <div>
           <p className={styles.label}>
-            {dict.product.color}{selectedColor && ` — ${colorLabel}`}
+            {dict.product.color}
+            {selectedColor && (
+              <span
+                className={styles.selectedColorSwatch}
+                style={{ backgroundColor: toHex(selectedColor) }}
+              />
+            )}
           </p>
           <div className={styles.colorOptions}>
             {product.colors.map((color) => (
@@ -61,7 +54,7 @@ export function AddToCart({ product }: AddToCartProps) {
                 key={color}
                 type="button"
                 className={`${styles.colorSwatch} ${selectedColor === color ? styles.colorSwatchActive : ''}`}
-                style={{ backgroundColor: COLOR_MAP[color] ?? color }}
+                style={{ backgroundColor: toHex(color) }}
                 onClick={() => setSelectedColor(color)}
                 aria-label={color}
                 title={color}

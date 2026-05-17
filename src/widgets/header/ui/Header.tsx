@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingOutlined, CloseOutlined } from "@ant-design/icons";
+import { ShoppingOutlined, CloseOutlined, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { useCartTotals, useCartStore } from "@/entities/cart/model/store";
+import { useWishlistStore } from "@/entities/wishlist/model/store";
 import type { Locale } from "@/shared/i18n/locales";
 import { LOCALES } from "@/shared/i18n/locales";
 import styles from "./Header.module.css";
@@ -35,6 +36,8 @@ export function Header({ lang, navLinks }: HeaderProps) {
   const pathname = usePathname();
   const { itemCount } = useCartTotals();
   const openCart = useCartStore((store) => store.openCart);
+  const openWishlist = useWishlistStore((store) => store.openWishlist);
+  const wishlistCount = useWishlistStore((store) => store.ids.length);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -114,6 +117,16 @@ export function Header({ lang, navLinks }: HeaderProps) {
                 </option>
               ))}
             </select>
+            <button
+              className={styles.btn}
+              onClick={openWishlist}
+              aria-label="Open wishlist"
+            >
+              <HeartOutlined style={{ fontSize: 18 }} />
+              {wishlistCount > 0 && (
+                <span className={styles.badge}>{wishlistCount}</span>
+              )}
+            </button>
             <button
               className={`${styles.btn} ${styles.cartBtn}`}
               onClick={openCart}

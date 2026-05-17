@@ -17,6 +17,9 @@ export interface Dictionary {
     title: string; empty: string; subtotal: string; shipping: string
     free: string; total: string; checkout: string; remove: string
   }
+  wishlist: {
+    title: string; empty: string; add: string; remove: string
+  }
   footer: {
     shop: string; suits: string; shirts: string; pants: string; accessories: string
     help: string; shipping: string; returns: string; faq: string

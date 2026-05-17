@@ -9,19 +9,9 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { supabase } from "@/shared/api/supabase";
 import { MultiImageUpload } from "@/shared/ui/ImageUpload";
+import { ColorSelector } from "@/shared/ui/ColorSelector";
 import type { Product, Category } from "@/entities/product/model/types";
 import styles from "./page.module.css";
-
-const COLOR_OPTIONS = [
-  { value: "Black",    label: "Чёрный" },
-  { value: "Navy",     label: "Тёмно-синий" },
-  { value: "Grey",     label: "Серый" },
-  { value: "White",    label: "Белый" },
-  { value: "Charcoal", label: "Тёмно-серый" },
-  { value: "Brown",    label: "Коричневый" },
-  { value: "Beige",    label: "Бежевый" },
-  { value: "Olive",    label: "Оливковый" },
-];
 
 const SIZES = ['46 (S)', '48 (M)', '50 (L)', '52 (XL)'];
 
@@ -186,7 +176,7 @@ export function AdminProductsClient() {
             <Select options={categories.map((c) => ({ value: c.id, label: c.name }))} />
           </Form.Item>
           <Form.Item name="colors" label="Цвета">
-            <Select mode="multiple" options={COLOR_OPTIONS} />
+            <ColorSelector />
           </Form.Item>
           <Form.Item name="sizes" label="Размеры">
             <Select mode="multiple" options={SIZES.map((size) => ({ value: size, label: size }))} />

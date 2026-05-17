@@ -6,6 +6,7 @@ import { SetLang } from "@/shared/i18n/SetLang";
 import { Header } from "@/widgets/header/ui/Header";
 import { Footer } from "@/widgets/footer/ui/Footer";
 import { CartDrawer } from "@/widgets/cart-drawer/ui/CartDrawer";
+import { WishlistDrawer } from "@/widgets/wishlist-drawer/ui/WishlistDrawer";
 import { fetchCategories } from "@/entities/product/model/api";
 import { pick } from "@/shared/i18n/pick";
 import styles from "./layout.module.css";
@@ -37,6 +38,7 @@ export default async function LangLayout({ children, params }: Props) {
       <main className={styles.main}>{children}</main>
       <Footer lang={lang} dict={dict} categories={categories} />
       <CartDrawer />
+      <WishlistDrawer />
     </LangProvider>
   );
 }

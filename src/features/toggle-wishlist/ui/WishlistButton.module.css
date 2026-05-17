@@ -1,0 +1,28 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+  backdrop-filter: blur(4px);
+}
+
+.btn:hover {
+  transform: scale(1.12);
+  background: rgba(255, 255, 255, 1);
+}
+
+.icon {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+}
+
+.iconActive {
+  font-size: 15px;
+  color: #d0021b;
+}

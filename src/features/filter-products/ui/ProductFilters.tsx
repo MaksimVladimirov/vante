@@ -3,30 +3,10 @@
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback } from "react";
 import { useLang } from "@/shared/i18n/LangContext";
+import { toHex } from "@/shared/lib/color";
 import styles from "./ProductFilters.module.css";
 
-const COLORS = [
-  "Black",
-  "Navy",
-  "Grey",
-  "White",
-  "Charcoal",
-  "Brown",
-  "Beige",
-  "Olive",
-];
 const SIZES = ["46 (S)", "48 (M)", "50 (L)", "52 (XL)"];
-
-const COLOR_MAP: Record<string, string> = {
-  Black: "#000",
-  Navy: "#1a2b5f",
-  Grey: "#808080",
-  White: "#fff",
-  Charcoal: "#36454f",
-  Brown: "#8b5a2b",
-  Beige: "#f5f0e8",
-  Olive: "#6b7c5c",
-};
 
 interface ProductFiltersProps {
   categories?: Array<{ name: string; slug: string }>;
@@ -37,7 +17,7 @@ interface ProductFiltersProps {
 export function ProductFilters({
   categories = [],
   availableSizes,
-  availableColors,
+  availableColors = [],
 }: ProductFiltersProps) {
   const { dict } = useLang();
   const router = useRouter();
@@ -92,31 +72,26 @@ export function ProductFilters({
         </div>
       )}
 
-      <div className={styles.filterGroup}>
-        <p className={styles.filterTitle}>{dict.filters.color}</p>
-        <ul className={styles.filterList}>
-          {COLORS.map((color) => {
-            const isDisabled =
-              availableColors !== undefined && !availableColors.includes(color);
-            const label =
-              dict.filters.colors[color as keyof typeof dict.filters.colors] ??
-              color;
-            return (
+      {availableColors.length > 0 && (
+        <div className={styles.filterGroup}>
+          <p className={styles.filterTitle}>{dict.filters.color}</p>
+          <ul className={styles.colorList}>
+            {availableColors.map((color) => (
               <li
                 key={color}
-                className={`${styles.filterItem} ${activeColors.includes(color) ? styles.filterItemActive : ""} ${isDisabled ? styles.filterItemDisabled : ""}`}
-                onClick={() => !isDisabled && updateParam("color", color, true)}
+                className={`${styles.colorItem} ${activeColors.includes(color) ? styles.colorItemActive : ""}`}
+                onClick={() => updateParam("color", color, true)}
+                title={color}
               >
                 <span
                   className={styles.colorSwatch}
-                  style={{ backgroundColor: COLOR_MAP[color] }}
+                  style={{ backgroundColor: toHex(color) }}
                 />
-                {label}
               </li>
-            );
-          })}
-        </ul>
-      </div>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className={styles.filterGroup}>
         <p className={styles.filterTitle}>{dict.filters.size}</p>

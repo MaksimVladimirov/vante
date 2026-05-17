@@ -1,8 +1,17 @@
 .card {
+  position: relative;
+  color: var(--color-text-primary);
+}
+
+/* ── Зона изображения ── */
+
+.imageContainer {
+  position: relative;
+}
+
+.imageLink {
   display: block;
   text-decoration: none;
-  color: var(--color-text-primary);
-  cursor: pointer;
 }
 
 .imageWrapper {
@@ -16,18 +25,74 @@
 
 .image {
   object-fit: cover;
-  transition: transform var(--transition-slow);
+  opacity: 0;
+  transition: opacity 0.2s ease;
 }
 
-.card:hover .image {
-  transform: scale(1.03);
+.imageActive {
+  opacity: 1;
 }
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  background: var(--color-gray-100);
+}
+
+/* ── Индикатор фото ── */
+
+.dots {
+  position: absolute;
+  bottom: var(--spacing-3);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: background 0.15s ease;
+}
+
+.dotActive {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* ── Избранное ── */
+
+.wishlistBtn {
+  position: absolute;
+  top: var(--spacing-3);
+  right: var(--spacing-3);
+  z-index: 2;
+}
+
+/* ── Текстовый блок ── */
 
 .info {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.infoRow {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--spacing-2);
+}
+
+.nameBlock {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  min-width: 0;
 }
 
 .name {
@@ -38,12 +103,41 @@
   line-height: var(--line-height-snug);
   text-transform: uppercase;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.colorDots {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.colorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
 }
 
 .price {
   font-family: var(--font-sans);
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-light);
   color: var(--color-text-secondary);
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.composition {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  letter-spacing: var(--letter-spacing-wide);
+  margin: var(--spacing-1) 0 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

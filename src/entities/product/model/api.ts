@@ -44,6 +44,16 @@ export async function fetchProductBySlug(slug: string): Promise<Product | null> 
   return data as Product;
 }
 
+export async function fetchProductsByIds(ids: string[]): Promise<Product[]> {
+  if (!ids.length) return []
+  const { data, error } = await supabase
+    .from('products')
+    .select('*, category:categories(*)')
+    .in('id', ids)
+  if (error) throw error
+  return data as Product[]
+}
+
 export async function fetchCategories() {
   const { data, error } = await supabase.from('categories').select('*');
   if (error) throw error;
