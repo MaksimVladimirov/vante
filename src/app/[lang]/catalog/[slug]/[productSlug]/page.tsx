@@ -5,7 +5,6 @@ import { getDictionary } from '@/shared/i18n/getDictionary'
 import { pick } from '@/shared/i18n/pick'
 import { fetchProductBySlug } from '@/entities/product/model/api'
 import { AddToCart } from '@/features/add-to-cart/ui/AddToCart'
-import { BackButton } from '@/features/back-button/ui/BackButton'
 import { ProductGallery } from '@/widgets/product-gallery/ui/ProductGallery'
 import styles from './page.module.css'
 
@@ -34,7 +33,6 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <div className={styles.wrapper}>
-      <BackButton />
       <div className={styles.page}>
         <ProductGallery product={product} />
 

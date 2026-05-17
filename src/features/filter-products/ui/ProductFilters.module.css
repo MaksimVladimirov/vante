@@ -2,12 +2,12 @@
 .swatches {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
 }
 
 .swatch {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.12);
   cursor: pointer;

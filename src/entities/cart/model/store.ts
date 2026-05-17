@@ -32,12 +32,10 @@ export const useCartStore = create<CartStore>()(
               items: state.items.map((item) =>
                 item.id === existing.id ? { ...item, quantity: item.quantity + payload.quantity } : item
               ),
-              isOpen: true,
             };
           }
           return {
             items: [...state.items, { ...payload, id: `${Date.now()}-${Math.random()}` }],
-            isOpen: true,
           };
         }),
 
