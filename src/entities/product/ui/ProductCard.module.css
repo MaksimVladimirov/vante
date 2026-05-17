@@ -1,17 +1,21 @@
 .card {
   position: relative;
   color: var(--color-text-primary);
+  width: 100%;
+  min-width: 0;
 }
 
 /* ── Зона изображения ── */
 
 .imageContainer {
   position: relative;
+  width: 100%;
 }
 
 .imageLink {
   display: block;
   text-decoration: none;
+  width: 100%;
 }
 
 .imageWrapper {
@@ -79,6 +83,8 @@
   display: block;
   text-decoration: none;
   color: inherit;
+  width: 100%;
+  min-width: 0;
 }
 
 .infoRow {
@@ -86,6 +92,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--spacing-2);
+  min-width: 0;
 }
 
 .nameBlock {
@@ -93,6 +100,8 @@
   align-items: center;
   gap: var(--spacing-2);
   min-width: 0;
+  flex: 1;
+  overflow: hidden;
 }
 
 .name {
@@ -106,6 +115,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
 }
 
 .colorDots {
@@ -140,4 +151,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* ── Мобильный адаптив ── */
+
+@media (max-width: 575px) {
+  .name {
+    font-size: var(--font-size-sm);
+  }
+
+  .price {
+    font-size: var(--font-size-xs);
+  }
+
+  .colorDot {
+    width: 8px;
+    height: 8px;
+  }
 }

@@ -10,6 +10,7 @@
     "sortPriceDesc": "Price: High to Low"
   },
   "filters": {
+    "title": "Filters",
     "category": "Category",
     "color": "Color",
     "size": "Size",

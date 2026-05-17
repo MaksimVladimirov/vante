@@ -140,6 +140,16 @@
   color: var(--color-white);
 }
 
+@media (max-width: 400px) {
+  .langSelect {
+    display: none;
+  }
+
+  .inner {
+    padding: 0 var(--spacing-4);
+  }
+}
+
 /* ─── Full-screen overlay ───────────────────────────────── */
 .overlay {
   position: fixed;

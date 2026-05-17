@@ -1,125 +1,97 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useCallback } from "react";
+import { Select } from "antd";
 import { useLang } from "@/shared/i18n/LangContext";
 import { toHex } from "@/shared/lib/color";
 import styles from "./ProductFilters.module.css";
 
 const SIZES = ["46 (S)", "48 (M)", "50 (L)", "52 (XL)"];
 
-interface ProductFiltersProps {
-  categories?: Array<{ name: string; slug: string }>;
-  availableSizes?: string[];
-  availableColors?: string[];
-}
-
-export function ProductFilters({
-  categories = [],
-  availableSizes,
-  availableColors = [],
-}: ProductFiltersProps) {
-  const { dict } = useLang();
+function useFilterState(key: string) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const urlValues = searchParams?.getAll(key) ?? [];
 
-  const activeCategory = searchParams?.get("category") ?? "";
-  const activeColors = searchParams?.getAll("color") ?? [];
-  const activeSizes = searchParams?.getAll("size") ?? [];
+  const [selected, setSelected] = useState<string[]>(urlValues);
 
-  const updateParam = useCallback(
-    (key: string, value: string, multi = false) => {
-      const params = new URLSearchParams(searchParams?.toString() ?? "");
-      if (multi) {
-        const existing = params.getAll(key);
-        if (existing.includes(value)) {
-          params.delete(key);
-          existing
-            .filter((param) => param !== value)
-            .forEach((param) => params.append(key, param));
-        } else {
-          params.append(key, value);
-        }
-      } else {
-        if (params.get(key) === value) {
-          params.delete(key);
-        } else {
-          params.set(key, value);
-        }
-      }
-      router.push(`${pathname}?${params.toString()}`);
-    },
-    [searchParams, pathname, router],
-  );
+  useEffect(() => {
+    setSelected(urlValues);
+  }, [urlValues.join(",")]);
+
+  const update = (next: string[]) => {
+    setSelected(next);
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
+    params.delete(key);
+    next.forEach((v) => params.append(key, v));
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  return { selected, update };
+}
+
+// ── Только цвета ──────────────────────────────────────────
+interface ColorFilterProps {
+  availableColors: string[];
+}
+
+export function ColorFilter({ availableColors }: ColorFilterProps) {
+  const { selected, update } = useFilterState("color");
+
+  const toggle = (color: string) => {
+    const next = selected.includes(color)
+      ? selected.filter((c) => c !== color)
+      : [...selected, color];
+    update(next);
+  };
+
+  if (!availableColors.length) return null;
 
   return (
-    <aside className={styles.sidebar}>
-      {categories.length > 0 && (
-        <div className={styles.filterGroup}>
-          <p className={styles.filterTitle}>{dict.filters.category}</p>
-          <ul className={styles.filterList}>
-            {categories.map((cat) => (
-              <li
-                key={cat.slug}
-                className={`${styles.filterItem} ${activeCategory === cat.slug ? styles.filterItemActive : ""}`}
-                onClick={() => updateParam("category", cat.slug)}
-              >
-                {cat.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {availableColors.length > 0 && (
-        <div className={styles.filterGroup}>
-          <p className={styles.filterTitle}>{dict.filters.color}</p>
-          <ul className={styles.colorList}>
-            {availableColors.map((color) => (
-              <li
-                key={color}
-                className={`${styles.colorItem} ${activeColors.includes(color) ? styles.colorItemActive : ""}`}
-                onClick={() => updateParam("color", color, true)}
-                title={color}
-              >
-                <span
-                  className={styles.colorSwatch}
-                  style={{ backgroundColor: toHex(color) }}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      <div className={styles.filterGroup}>
-        <p className={styles.filterTitle}>{dict.filters.size}</p>
-        <ul className={styles.filterList}>
-          {SIZES.map((size) => {
-            const isDisabled =
-              availableSizes !== undefined && !availableSizes.includes(size);
-            return (
-              <li
-                key={size}
-                className={`${styles.filterItem} ${activeSizes.includes(size) ? styles.filterItemActive : ""} ${isDisabled ? styles.filterItemDisabled : ""}`}
-                onClick={() => !isDisabled && updateParam("size", size, true)}
-              >
-                {size}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      {(activeColors.length > 0 || activeSizes.length > 0 || activeCategory) && (
+    <div className={styles.swatches}>
+      {availableColors.map((color) => (
         <button
-          className={styles.resetBtn}
-          onClick={() => router.push(pathname)}
-        >
-          {dict.filters.reset}
-        </button>
-      )}
-    </aside>
+          key={color}
+          type="button"
+          className={`${styles.swatch} ${selected.includes(color) ? styles.swatchActive : ""}`}
+          style={{ backgroundColor: toHex(color) }}
+          onClick={() => toggle(color)}
+          title={color}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ── Только размеры ────────────────────────────────────────
+interface SizeFilterProps {
+  availableSizes?: string[];
+}
+
+export function SizeFilter({ availableSizes }: SizeFilterProps) {
+  const { dict } = useLang();
+  const { selected, update } = useFilterState("size");
+
+  const options = (availableSizes ?? SIZES).map((size) => ({
+    value: size,
+    label: size,
+    disabled: availableSizes !== undefined && !availableSizes.includes(size),
+  }));
+
+  return (
+    <Select
+      mode="multiple"
+      placeholder={dict.filters.size}
+      value={selected}
+      onChange={update}
+      options={options}
+      showSearch={false}
+      maxTagCount="responsive"
+      variant="borderless"
+      popupMatchSelectWidth={false}
+      className={styles.sizeSelect}
+    />
   );
 }

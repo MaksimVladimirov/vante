@@ -10,6 +10,7 @@
     "sortPriceDesc": "Цена: по убыванию"
   },
   "filters": {
+    "title": "Фильтры",
     "category": "Категория",
     "color": "Цвет",
     "size": "Размер",

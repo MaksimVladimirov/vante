@@ -4,7 +4,7 @@ export interface Dictionary {
   categories: { heading: string; viewAll: string }
   catalog: { sort: string; sortNewest: string; sortPriceAsc: string; sortPriceDesc: string }
   filters: {
-    category: string; color: string; size: string; reset: string
+    title: string; category: string; color: string; size: string; reset: string
     colors: Record<string, string>
   }
   product: {
