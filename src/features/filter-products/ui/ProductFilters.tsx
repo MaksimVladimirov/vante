@@ -111,6 +111,15 @@ export function ProductFilters({
           })}
         </ul>
       </div>
+
+      {(activeColors.length > 0 || activeSizes.length > 0 || activeCategory) && (
+        <button
+          className={styles.resetBtn}
+          onClick={() => router.push(pathname)}
+        >
+          {dict.filters.reset}
+        </button>
+      )}
     </aside>
   );
 }

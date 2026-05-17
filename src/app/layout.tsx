@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, App } from "antd";
 import { antdTheme } from "@/shared/config/antd-theme";
 import "./globals.css";
 
@@ -18,7 +18,9 @@ export default function RootLayout({
     <html suppressHydrationWarning>
       <body>
         <AntdRegistry>
-          <ConfigProvider theme={antdTheme}>{children}</ConfigProvider>
+          <ConfigProvider theme={antdTheme}>
+            <App>{children}</App>
+          </ConfigProvider>
         </AntdRegistry>
       </body>
     </html>

@@ -81,6 +81,27 @@
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
+.resetBtn {
+  width: 100%;
+  padding: var(--spacing-2) 0;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-align: left;
+  margin-top: var(--spacing-4);
+  transition: color var(--transition-fast);
+}
+
+.resetBtn:hover {
+  color: var(--color-text-primary);
+}
+
 .mobileFilterBar {
   display: none;
   align-items: center;

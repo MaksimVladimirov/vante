@@ -4,7 +4,7 @@ export interface Dictionary {
   categories: { heading: string; viewAll: string }
   catalog: { sort: string; sortNewest: string; sortPriceAsc: string; sortPriceDesc: string }
   filters: {
-    category: string; color: string; size: string
+    category: string; color: string; size: string; reset: string
     colors: Record<string, string>
   }
   product: {
@@ -20,6 +20,7 @@ export interface Dictionary {
   wishlist: {
     title: string; empty: string; add: string; remove: string
   }
+  nav: { back: string }
   footer: {
     shop: string; suits: string; shirts: string; pants: string; accessories: string
     help: string; shipping: string; returns: string; faq: string
@@ -28,8 +29,8 @@ export interface Dictionary {
 }
 
 const dictionaries: Record<Locale, () => Promise<Dictionary>> = {
-  ru: () => import('./dictionaries/ru.json').then((m) => m.default as Dictionary),
-  en: () => import('./dictionaries/en.json').then((m) => m.default as Dictionary),
+  ru: () => import('./dictionaries/ru.json').then((m) => m.default as unknown as Dictionary),
+  en: () => import('./dictionaries/en.json').then((m) => m.default as unknown as Dictionary),
 }
 
 export async function getDictionary(locale: Locale): Promise<Dictionary> {

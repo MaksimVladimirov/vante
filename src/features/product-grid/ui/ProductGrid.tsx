@@ -6,7 +6,7 @@ import type { Product } from "@/entities/product/model/types";
 import { useLang } from "@/shared/i18n/LangContext";
 import styles from "./ProductGrid.module.css";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 7;
 
 interface ProductGridProps {
   products: Product[];

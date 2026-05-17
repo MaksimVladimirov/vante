@@ -13,6 +13,7 @@
     "category": "Category",
     "color": "Color",
     "size": "Size",
+    "reset": "Reset filters",
     "colors": {
       "Black": "Black",
       "Navy": "Navy",
@@ -50,6 +51,7 @@
     "checkout": "Checkout",
     "remove": "Remove"
   },
+  "nav": { "back": "Back" },
   "wishlist": {
     "title": "Wishlist",
     "empty": "Your wishlist is empty",
