@@ -1,28 +1,36 @@
-import { notFound } from "next/navigation";
-import { Collapse } from "antd";
-import { isLocale } from "@/shared/i18n/locales";
-import { getDictionary } from "@/shared/i18n/getDictionary";
-import { pick } from "@/shared/i18n/pick";
-import { fetchProductBySlug } from "@/entities/product/model/api";
-import { AddToCart } from "@/features/add-to-cart/ui/AddToCart";
-import { BackButton } from "@/features/back-button/ui/BackButton";
-import { ProductGallery } from "@/widgets/product-gallery/ui/ProductGallery";
-import styles from "./page.module.css";
+import { notFound } from 'next/navigation'
+import { Collapse } from 'antd'
+import { isLocale } from '@/shared/i18n/locales'
+import { getDictionary } from '@/shared/i18n/getDictionary'
+import { pick } from '@/shared/i18n/pick'
+import { fetchProductBySlug } from '@/entities/product/model/api'
+import { AddToCart } from '@/features/add-to-cart/ui/AddToCart'
+import { BackButton } from '@/features/back-button/ui/BackButton'
+import { ProductGallery } from '@/widgets/product-gallery/ui/ProductGallery'
+import styles from './page.module.css'
 
 interface Props {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ lang: string; slug: string; productSlug: string }>
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { lang, productSlug } = await params
+  if (!isLocale(lang)) return {}
+  const product = await fetchProductBySlug(productSlug)
+  if (!product) return {}
+  return { title: `${pick(lang, product.name, product.name_en)} — MVXIII` }
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { lang, slug } = await params;
-  if (!isLocale(lang)) notFound();
+  const { lang, productSlug } = await params
+  if (!isLocale(lang)) notFound()
 
   const [dict, product] = await Promise.all([
     getDictionary(lang),
-    fetchProductBySlug(slug),
-  ]);
+    fetchProductBySlug(productSlug),
+  ])
 
-  if (!product) notFound();
+  if (!product) notFound()
 
   return (
     <div className={styles.wrapper}>
@@ -41,7 +49,7 @@ export default async function ProductPage({ params }: Props) {
               {pick(lang, product.name, product.name_en)}
             </h1>
             <p className={styles.price}>
-              {product.price.toLocaleString("ru-RU")} ₽
+              {product.price.toLocaleString('ru-RU')} ₽
             </p>
 
             <AddToCart product={product} />
@@ -51,7 +59,7 @@ export default async function ProductPage({ params }: Props) {
                 ghost
                 items={[
                   {
-                    key: "description",
+                    key: 'description',
                     label: dict.product.description,
                     children: (
                       <p className={styles.accordionText}>
@@ -61,7 +69,7 @@ export default async function ProductPage({ params }: Props) {
                     ),
                   },
                   {
-                    key: "details",
+                    key: 'details',
                     label: dict.product.details,
                     children: (
                       <p className={styles.accordionText}>
@@ -71,12 +79,10 @@ export default async function ProductPage({ params }: Props) {
                     ),
                   },
                   {
-                    key: "shipping",
+                    key: 'shipping',
                     label: dict.product.shipping,
                     children: (
-                      <p className={styles.accordionText}>
-                        {dict.product.shippingText}
-                      </p>
+                      <p className={styles.accordionText}>{dict.product.shippingText}</p>
                     ),
                   },
                 ]}
@@ -86,5 +92,5 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
     </div>
-  );
+  )
 }

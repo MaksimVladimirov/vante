@@ -39,7 +39,7 @@ export function ProductCard({ product, lang }: ProductCardProps) {
     <div className={styles.card}>
       <div className={styles.imageContainer}>
         <Link
-          href={`/${lang}/products/${product.slug}`}
+          href={`/${lang}/catalog/${product.category?.slug ?? 'catalog'}/${product.slug}`}
           className={styles.imageLink}
           tabIndex={-1}
         >
@@ -81,7 +81,7 @@ export function ProductCard({ product, lang }: ProductCardProps) {
         <WishlistButton productId={product.id} className={styles.wishlistBtn} />
       </div>
 
-      <Link href={`/${lang}/products/${product.slug}`} className={styles.info}>
+      <Link href={`/${lang}/catalog/${product.category?.slug ?? 'catalog'}/${product.slug}`} className={styles.info}>
         <div className={styles.infoRow}>
           <div className={styles.nameBlock}>
             <h3 className={styles.name}>{name}</h3>

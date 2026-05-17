@@ -12,13 +12,13 @@ export const DEFAULT_HERO: Record<Locale, {
     title: 'Вне\nвремени',
     subtitle: 'Создано для уверенности.',
     ctaText: 'Смотреть коллекцию',
-    ctaLink: '/suits',
+    ctaLink: '/catalog/suits',
   },
   en: {
     eyebrow: 'New Collection',
     title: 'Beyond\nTime',
     subtitle: 'Made for confidence.',
     ctaText: 'View Collection',
-    ctaLink: '/suits',
+    ctaLink: '/catalog/suits',
   },
 }

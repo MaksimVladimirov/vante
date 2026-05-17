@@ -41,7 +41,7 @@ export function AdminHeroClient() {
         hero_title:       map.hero_title       || 'Вне\nвремени',
         hero_subtitle:    map.hero_subtitle    || 'Создано для уверенности.',
         hero_cta_text:    map.hero_cta_text    || 'Смотреть коллекцию',
-        hero_cta_link:    map.hero_cta_link    || '/suits',
+        hero_cta_link:    map.hero_cta_link    || '/catalog/suits',
         hero_eyebrow_en:  map.hero_eyebrow_en  || '',
         hero_title_en:    map.hero_title_en    || '',
         hero_subtitle_en: map.hero_subtitle_en || '',
@@ -94,7 +94,7 @@ export function AdminHeroClient() {
             <Input placeholder="Смотреть коллекцию" />
           </Form.Item>
           <Form.Item name="hero_cta_link" label="Ссылка кнопки">
-            <Input placeholder="/suits" />
+            <Input placeholder="/catalog/suits" />
           </Form.Item>
 
           <Divider>Text — English</Divider>

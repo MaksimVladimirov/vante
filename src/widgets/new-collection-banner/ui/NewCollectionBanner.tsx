@@ -17,7 +17,7 @@ export function NewCollectionBanner() {
         <h2 className={styles.title}>
           Весна / Лето<br />2024
         </h2>
-        <Link href="/suits" className={styles.cta}>
+        <Link href="/catalog/suits" className={styles.cta}>
           Смотреть <ArrowRightOutlined />
         </Link>
       </div>

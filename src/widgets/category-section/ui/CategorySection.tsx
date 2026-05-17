@@ -34,7 +34,7 @@ export async function CategorySection({ lang, dict }: Props) {
           return (
             <Link
               key={cat.slug}
-              href={`/${lang}/${cat.slug}`}
+              href={`/${lang}/catalog/${cat.slug}`}
               className={styles.card}
             >
               <div className={styles.imageWrapper}>

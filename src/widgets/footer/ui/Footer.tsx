@@ -28,7 +28,7 @@ export function Footer({ lang, dict, categories }: Props) {
           <div className={styles.col}>
             <p className={styles.colTitle}>{f.shop}</p>
             {categories.map((cat) => (
-              <Link key={cat.id} href={`/${lang}/${cat.slug}`} className={styles.colLink}>
+              <Link key={cat.id} href={`/${lang}/catalog/${cat.slug}`} className={styles.colLink}>
                 {pick(lang, cat.name, cat.name_en)}
               </Link>
             ))}

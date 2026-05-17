@@ -13,16 +13,16 @@ import styles from "./Header.module.css";
 
 const FALLBACK_NAV: Record<Locale, Array<{ href: string; label: string }>> = {
   ru: [
-    { href: "/ru/accessories", label: "Аксессуары" },
-    { href: "/ru/pants", label: "Брюки" },
-    { href: "/ru/suits", label: "Костюмы" },
-    { href: "/ru/shirts", label: "Рубашки" },
+    { href: "/ru/catalog/suits",       label: "Костюмы" },
+    { href: "/ru/catalog/shirts",      label: "Рубашки" },
+    { href: "/ru/catalog/pants",       label: "Брюки" },
+    { href: "/ru/catalog/accessories", label: "Аксессуары" },
   ],
   en: [
-    { href: "/en/accessories", label: "Accessories" },
-    { href: "/en/pants", label: "Trousers" },
-    { href: "/en/suits", label: "Suits" },
-    { href: "/en/shirts", label: "Shirts" },
+    { href: "/en/catalog/suits",       label: "Suits" },
+    { href: "/en/catalog/shirts",      label: "Shirts" },
+    { href: "/en/catalog/pants",       label: "Trousers" },
+    { href: "/en/catalog/accessories", label: "Accessories" },
   ],
 };
 

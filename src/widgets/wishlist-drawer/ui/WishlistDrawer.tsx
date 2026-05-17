@@ -61,7 +61,7 @@ export function WishlistDrawer() {
           {products.map((product) => (
             <div key={product.id} className={styles.item}>
               <Link
-                href={`/${lang}/products/${product.slug}`}
+                href={`/${lang}/catalog/${product.category?.slug ?? 'catalog'}/${product.slug}`}
                 className={styles.itemLink}
                 onClick={closeWishlist}
               >

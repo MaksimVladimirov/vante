@@ -27,7 +27,7 @@ export default async function LangLayout({ children, params }: Props) {
   ]);
 
   const navLinks = categories.map((cat) => ({
-    href: `/${lang}/${cat.slug}`,
+    href: `/${lang}/catalog/${cat.slug}`,
     label: pick(lang, cat.name, cat.name_en),
   }));
 
