@@ -1,1 +1,1 @@
-export { default, generateMetadata } from '@/pages/catalog/suits'
+export { default, generateMetadata } from '@/views/catalog/suits'
