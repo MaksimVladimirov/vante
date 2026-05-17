@@ -7,6 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "MVXIII by Maxim Vladimirov",
   description: "Откройте нашу коллекцию костюмов, рубашек и аксессуаров.",
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({
