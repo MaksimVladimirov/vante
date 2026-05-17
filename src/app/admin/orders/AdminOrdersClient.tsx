@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table, Tag, Select, message } from "antd";
+import { Table, Tag, Select, App } from "antd";
 import { supabase } from "@/shared/api/supabase";
 import type { Database } from "@/shared/api/database.types";
 import styles from "./page.module.css";
@@ -25,6 +25,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export function AdminOrdersClient() {
+  const { message } = App.useApp();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -86,7 +87,9 @@ export function AdminOrdersClient() {
             ["new", "paid", "shipped", "delivered", "cancelled"] as const
           ).map((status) => ({
             value: status,
-            label: <Tag color={STATUS_COLORS[status]}>{STATUS_LABELS[status]}</Tag>,
+            label: (
+              <Tag color={STATUS_COLORS[status]}>{STATUS_LABELS[status]}</Tag>
+            ),
           }))}
         />
       ),

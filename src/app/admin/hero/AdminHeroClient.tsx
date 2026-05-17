@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Form, Input, Button, message, Card, Divider } from 'antd';
+import { Form, Input, Button, App, Card, Divider } from 'antd';
 import { supabase } from '@/shared/api/supabase';
 import { ImageUpload } from '@/shared/ui/ImageUpload';
 import styles from '../products/page.module.css';
@@ -24,6 +24,7 @@ type HeroValues = {
 };
 
 export function AdminHeroClient() {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [saving, setSaving] = useState(false);
 

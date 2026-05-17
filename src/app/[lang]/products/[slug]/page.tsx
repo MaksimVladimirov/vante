@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { Collapse } from "antd";
 import { isLocale } from "@/shared/i18n/locales";
 import { getDictionary } from "@/shared/i18n/getDictionary";
@@ -7,6 +6,7 @@ import { pick } from "@/shared/i18n/pick";
 import { fetchProductBySlug } from "@/entities/product/model/api";
 import { AddToCart } from "@/features/add-to-cart/ui/AddToCart";
 import { BackButton } from "@/features/back-button/ui/BackButton";
+import { ProductGallery } from "@/widgets/product-gallery/ui/ProductGallery";
 import styles from "./page.module.css";
 
 interface Props {
@@ -28,26 +28,7 @@ export default async function ProductPage({ params }: Props) {
     <div className={styles.wrapper}>
       <BackButton />
       <div className={styles.page}>
-        <div className={styles.gallery}>
-          {product.images.map((img, i) => (
-            <div key={i} className={styles.galleryItem}>
-              <Image
-                src={img}
-                alt={`${product.name} ${i + 1}`}
-                fill
-                className={styles.galleryImage}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority={i === 0}
-                unoptimized
-              />
-            </div>
-          ))}
-          {product.images.length === 0 && (
-            <div className={styles.galleryItem}>
-              <div className={styles.placeholder} />
-            </div>
-          )}
-        </div>
+        <ProductGallery product={product} />
 
         <div className={styles.info}>
           <div className={styles.infoSticky}>

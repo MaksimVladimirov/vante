@@ -16,6 +16,10 @@
   color: var(--color-text-primary);
 }
 
+.toolbar {
+  margin-bottom: var(--spacing-4);
+}
+
 .card {
   max-width: 680px;
 }

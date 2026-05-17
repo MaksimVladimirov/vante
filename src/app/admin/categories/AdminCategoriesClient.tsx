@@ -7,7 +7,7 @@ import {
   Modal,
   Form,
   Input,
-  message,
+  App,
   Space,
   Divider,
 } from "antd";
@@ -19,6 +19,7 @@ import type { Category } from "@/entities/product/model/types";
 import styles from "../products/page.module.css";
 
 export function AdminCategoriesClient() {
+  const { message } = App.useApp();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,8 +36,15 @@ export function AdminCategoriesClient() {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    void load();
+    const init = async () => {
+      const { data } = await supabase
+        .from("categories")
+        .select("*")
+        .order("created_at");
+      setCategories((data as Category[]) ?? []);
+      setLoading(false);
+    };
+    init();
   }, []);
 
   const openCreate = () => {
@@ -69,25 +77,20 @@ export function AdminCategoriesClient() {
     };
 
     if (editing) {
-      await supabase
+      const { error } = await supabase
         .from("categories")
         .update({ ...payload, slug: values.slug })
         .eq("id", editing.id);
+      if (error) { message.error("Ошибка: " + error.message); return; }
       message.success("Категория обновлена");
     } else {
       const slug =
         values.slug ||
-        values.name
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/gi, "");
+        values.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/gi, "");
       const { error } = await supabase
         .from("categories")
         .insert([{ ...payload, slug }]);
-      if (error) {
-        message.error("Ошибка: " + error.message);
-        return;
-      }
+      if (error) { message.error("Ошибка: " + error.message); return; }
       message.success("Категория добавлена");
     }
     setModalOpen(false);
@@ -102,13 +105,7 @@ export function AdminCategoriesClient() {
         const src = row.image_url || `/images/category-${row.slug}.jpg`;
         return (
           <div className={styles.thumbnailCategory}>
-            <Image
-              src={src}
-              alt={row.name}
-              fill
-              className={styles.coverImage}
-              unoptimized
-            />
+            <Image src={src} alt={row.name} fill className={styles.coverImage} unoptimized />
           </div>
         );
       },
@@ -117,8 +114,7 @@ export function AdminCategoriesClient() {
     {
       title: "EN",
       dataIndex: "name_en",
-      render: (v: string | null) =>
-        v || <span className={styles.muted}>—</span>,
+      render: (v: string | null) => v || <span className={styles.muted}>—</span>,
     },
     { title: "Slug", dataIndex: "slug" },
     {
@@ -126,11 +122,7 @@ export function AdminCategoriesClient() {
       key: "action",
       render: (_: unknown, record: Category) => (
         <Space>
-          <Button
-            icon={<EditOutlined />}
-            size="small"
-            onClick={() => openEdit(record)}
-          />
+          <Button icon={<EditOutlined />} size="small" onClick={() => openEdit(record)} />
         </Space>
       ),
     },
@@ -145,13 +137,7 @@ export function AdminCategoriesClient() {
         </Button>
       </div>
 
-      <Table
-        columns={columns}
-        dataSource={categories}
-        rowKey="id"
-        loading={loading}
-        pagination={false}
-      />
+      <Table columns={columns} dataSource={categories} rowKey="id" loading={loading} pagination={false} />
 
       <Modal
         title={editing ? "Редактировать категорию" : "Добавить категорию"}
@@ -160,15 +146,10 @@ export function AdminCategoriesClient() {
         onOk={() => form.submit()}
         okText={editing ? "Сохранить" : "Создать"}
         cancelText="Отмена"
-        forceRender
       >
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Divider>Русский</Divider>
-          <Form.Item
-            name="name"
-            label="Название (RU)"
-            rules={[{ required: true }]}
-          >
+          <Form.Item name="name" label="Название (RU)" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
 
@@ -182,11 +163,7 @@ export function AdminCategoriesClient() {
             name="slug"
             label="Slug (URL, латиницей)"
             rules={editing ? [{ required: true }] : []}
-            extra={
-              !editing
-                ? "Оставьте пустым — сгенерируется автоматически"
-                : undefined
-            }
+            extra={!editing ? "Оставьте пустым — сгенерируется автоматически" : undefined}
           >
             <Input placeholder="suits" />
           </Form.Item>

@@ -34,8 +34,8 @@ export async function CatalogWidget({
 
   const products = await fetchProducts({ category: categorySlug, colors, sizes, sortBy });
 
-  const availableColors = [...new Set(products.flatMap((p) => p.colors))];
-  const availableSizes = [...new Set(products.flatMap((p) => p.sizes))];
+  const availableColors = [...new Set(products.flatMap((p) => p.colors ?? []).filter(Boolean))];
+  const availableSizes = [...new Set(products.flatMap((p) => p.sizes ?? []).filter(Boolean))];
 
   return (
     <div className={styles.page}>

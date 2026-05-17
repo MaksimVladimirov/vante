@@ -1,0 +1,101 @@
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2);
+  align-content: start;
+}
+
+.galleryItem {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: var(--color-gray-100);
+  cursor: zoom-in;
+}
+
+.galleryItem:first-child {
+  grid-column: 1 / -1;
+}
+
+.galleryImage {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.galleryItem:hover .galleryImage {
+  transform: scale(1.03);
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  background: var(--color-gray-100);
+}
+
+/* ─── Лайтбокс ──────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: rgba(0, 0, 0, 0.95);
+  cursor: zoom-out;
+}
+
+.lightboxImage {
+  object-fit: contain;
+}
+
+.lightboxActions {
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.closeBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  transition: background var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+  transition: background var(--transition-fast);
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.arrowLeft  { left: var(--spacing-4); }
+.arrowRight { right: var(--spacing-4); }

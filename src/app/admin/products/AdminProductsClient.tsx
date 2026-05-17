@@ -28,6 +28,7 @@ export function AdminProductsClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -103,10 +104,14 @@ export function AdminProductsClient() {
       (acc, n) => acc + (Number(n) || 0),
       0,
     );
-    const slug = String(values.name)
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/gi, "");
+    const generateSlug = (name: string) => {
+      const base = name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/gi, "");
+      return base || `product-${Date.now()}`;
+    };
+    // При редактировании slug не меняем; при создании берём из EN-названия или RU
+    const slug = editing
+      ? editing.slug
+      : generateSlug((values.name_en as string) || String(values.name));
 
     const payload = {
       name: String(values.name),
@@ -225,9 +230,24 @@ export function AdminProductsClient() {
         </Button>
       </div>
 
+      <div className={styles.toolbar}>
+        <Select
+          allowClear
+          placeholder="Все категории"
+          style={{ width: 200 }}
+          value={categoryFilter}
+          onChange={(val) => setCategoryFilter(val ?? null)}
+          options={categories.map((c) => ({ value: c.id, label: c.name }))}
+        />
+      </div>
+
       <Table
         columns={columns}
-        dataSource={products}
+        dataSource={
+          categoryFilter
+            ? products.filter((p) => p.category_id === categoryFilter)
+            : products
+        }
         rowKey="id"
         loading={loading}
         pagination={{ pageSize: 20 }}
