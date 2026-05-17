@@ -28,6 +28,13 @@ body {
   flex-direction: column;
 }
 
+/* Ant Design App обёртка должна наследовать flex-колонку от body */
+.ant-app {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 img {
   display: block;
   max-width: 100%;

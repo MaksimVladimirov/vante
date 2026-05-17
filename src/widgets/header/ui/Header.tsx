@@ -118,7 +118,7 @@ export function Header({ lang, navLinks }: HeaderProps) {
               ))}
             </select>
             <button
-              className={styles.btn}
+              className={`${styles.btn} ${styles.cartBtn}`}
               onClick={openWishlist}
               aria-label="Open wishlist"
             >
