@@ -1,6 +1,12 @@
 .footer {
-  background-color: var(--color-bg);
-  border-top: 1px solid var(--color-border);
+  --color-bg: #000;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #fff;
+  --color-text-secondary: rgba(255, 255, 255, 0.55);
+  --color-text-muted: rgba(255, 255, 255, 0.35);
+
+  background-color: #000;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   margin-top: auto;
 }
 

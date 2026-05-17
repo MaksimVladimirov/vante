@@ -34,7 +34,7 @@ export function Header({ lang, navLinks }: HeaderProps) {
   const links = navLinks ?? FALLBACK_NAV[lang];
   const pathname = usePathname();
   const { itemCount } = useCartTotals();
-  const openCart = useCartStore((s) => s.openCart);
+  const openCart = useCartStore((store) => store.openCart);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -83,7 +83,7 @@ export function Header({ lang, navLinks }: HeaderProps) {
         <div className={styles.inner}>
           <button
             className={styles.btn}
-            onClick={() => setMenuOpen((v) => !v)}
+            onClick={() => setMenuOpen((isOpen) => !isOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             {menuOpen ? (
@@ -108,9 +108,9 @@ export function Header({ lang, navLinks }: HeaderProps) {
               onChange={handleLangChange}
               aria-label="Language"
             >
-              {LOCALES.map((l) => (
-                <option key={l} value={l}>
-                  {l.toUpperCase()}
+              {LOCALES.map((locale) => (
+                <option key={locale} value={locale}>
+                  {locale.toUpperCase()}
                 </option>
               ))}
             </select>

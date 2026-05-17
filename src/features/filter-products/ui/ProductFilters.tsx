@@ -56,8 +56,8 @@ export function ProductFilters({
         if (existing.includes(value)) {
           params.delete(key);
           existing
-            .filter((v) => v !== value)
-            .forEach((v) => params.append(key, v));
+            .filter((param) => param !== value)
+            .forEach((param) => params.append(key, param));
         } else {
           params.append(key, value);
         }

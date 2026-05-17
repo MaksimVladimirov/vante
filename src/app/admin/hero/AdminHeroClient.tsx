@@ -65,7 +65,7 @@ export function AdminHeroClient() {
         <h1 className={styles.title}>Главная страница</h1>
       </div>
 
-      <Card style={{ maxWidth: 680 }}>
+      <Card className={styles.card}>
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
 
           <Divider>Фото под разрешение</Divider>

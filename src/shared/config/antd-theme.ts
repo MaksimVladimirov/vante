@@ -40,6 +40,9 @@ export const antdTheme: ThemeConfig = {
     },
     Select: {
       borderRadius: 0,
+      optionSelectedBg: '#f2f2f2',
+      optionSelectedColor: '#000000',
+      optionSelectedFontWeight: 600,
     },
     Table: {
       borderRadius: 0,

@@ -5,6 +5,7 @@ import { Upload, Button, message } from 'antd';
 import { UploadOutlined, LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import { supabase } from '@/shared/api/supabase';
+import styles from './ImageUpload.module.css';
 
 async function uploadToStorage(file: File, folder: string): Promise<string | null> {
   const ext = file.name.split('.').pop() ?? 'jpg';
@@ -18,7 +19,7 @@ async function uploadToStorage(file: File, folder: string): Promise<string | nul
   return data.publicUrl;
 }
 
-// Single image upload — for category photo and hero image
+// Загрузка одного изображения — для фото категории и героя
 interface ImageUploadProps {
   value?: string;
   onChange?: (url: string) => void;
@@ -36,10 +37,10 @@ export function ImageUpload({ value, onChange, folder = 'misc' }: ImageUploadPro
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div className={styles.wrapper}>
       {value && (
-        <div style={{ position: 'relative', width: 140, height: 140, background: '#f2f2f2' }}>
-          <Image src={value} alt="" fill style={{ objectFit: 'cover' }} unoptimized />
+        <div className={styles.preview}>
+          <Image src={value} alt="" fill className={styles.previewImage} unoptimized />
         </div>
       )}
       <Upload
@@ -55,7 +56,7 @@ export function ImageUpload({ value, onChange, folder = 'misc' }: ImageUploadPro
   );
 }
 
-// Multiple images upload — for product photos
+// Загрузка нескольких изображений — для фото товара
 interface MultiImageUploadProps {
   value?: string[];
   onChange?: (urls: string[]) => void;
@@ -75,24 +76,18 @@ export function MultiImageUpload({ value = [], onChange, folder = 'misc' }: Mult
   const remove = (url: string) => onChange?.(value.filter((u) => u !== url));
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div className={styles.wrapper}>
       {value.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+        <div className={styles.gallery}>
           {value.map((url) => (
-            <div key={url} style={{ position: 'relative', width: 80, height: 100 }}>
-              <div style={{ position: 'relative', width: 80, height: 100, background: '#f2f2f2' }}>
-                <Image src={url} alt="" fill style={{ objectFit: 'cover' }} unoptimized />
+            <div key={url} className={styles.galleryItem}>
+              <div className={styles.galleryItemInner}>
+                <Image src={url} alt="" fill className={styles.galleryImage} unoptimized />
               </div>
               <button
                 type="button"
                 onClick={() => remove(url)}
-                style={{
-                  position: 'absolute', top: 2, right: 2,
-                  background: 'rgba(0,0,0,0.6)', color: '#fff',
-                  border: 'none', borderRadius: 2, cursor: 'pointer',
-                  width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 10,
-                }}
+                className={styles.removeBtn}
               >
                 <CloseOutlined />
               </button>

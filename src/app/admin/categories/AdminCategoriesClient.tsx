@@ -101,19 +101,12 @@ export function AdminCategoriesClient() {
       render: (_: unknown, row: Category) => {
         const src = row.image_url || `/images/category-${row.slug}.jpg`;
         return (
-          <div
-            style={{
-              position: "relative",
-              width: 60,
-              height: 60,
-              background: "#f2f2f2",
-            }}
-          >
+          <div className={styles.thumbnailCategory}>
             <Image
               src={src}
               alt={row.name}
               fill
-              style={{ objectFit: "cover" }}
+              className={styles.coverImage}
               unoptimized
             />
           </div>
@@ -125,7 +118,7 @@ export function AdminCategoriesClient() {
       title: "EN",
       dataIndex: "name_en",
       render: (v: string | null) =>
-        v || <span style={{ color: "#bbb" }}>—</span>,
+        v || <span className={styles.muted}>—</span>,
     },
     { title: "Slug", dataIndex: "slug" },
     {

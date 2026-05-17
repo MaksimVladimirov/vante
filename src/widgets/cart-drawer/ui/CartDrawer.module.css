@@ -1,3 +1,20 @@
+.drawerRoot :global(.ant-drawer-content-wrapper) {
+  width: 420px !important;
+}
+
+.drawerRoot :global(.ant-drawer-header) {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.drawerRoot :global(.ant-drawer-body) {
+  padding: 0 24px;
+}
+
 .item {
   display: grid;
   grid-template-columns: 80px 1fr auto;
@@ -164,6 +181,10 @@
   justify-content: center;
   height: 300px;
   gap: var(--spacing-4);
+}
+
+.coverImage {
+  object-fit: cover;
 }
 
 .emptyText {

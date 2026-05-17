@@ -1,28 +1,26 @@
 import { fetchProducts } from "@/entities/product/model/api";
 import { ProductFilters } from "@/features/filter-products/ui/ProductFilters";
-import { ProductGrid } from "@/widgets/product-grid/ui/ProductGrid";
-import { CatalogSortSelect } from "./CatalogSortSelect";
+import { ProductGrid } from "@/features/product-grid/ui/ProductGrid";
+import { CatalogSortSelect } from "@/features/catalog-sort/ui/CatalogSortSelect";
 import type { ProductFilters as Filters } from "@/entities/product/model/types";
-import type { Locale } from "@/shared/i18n/locales";
 import type { Dictionary } from "@/shared/i18n/getDictionary";
-import styles from "../catalog.module.css";
+import styles from "./catalog.module.css";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
-interface CatalogPageProps {
-  lang: Locale;
+interface CatalogWidgetProps {
   dict: Dictionary;
   categorySlug: string;
   title: string;
   searchParams: SearchParams;
 }
 
-export async function CatalogPage({
+export async function CatalogWidget({
   dict,
   categorySlug,
   title,
   searchParams,
-}: CatalogPageProps) {
+}: CatalogWidgetProps) {
   const sortRaw = searchParams.sort;
   const sortBy = (
     typeof sortRaw === "string" ? sortRaw : "newest"

@@ -15,3 +15,50 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
 }
+
+.card {
+  max-width: 680px;
+}
+
+.thumbnail {
+  position: relative;
+  width: 48px;
+  height: 60px;
+}
+
+.thumbnailEmpty {
+  width: 48px;
+  height: 60px;
+  background: #f2f2f2;
+}
+
+.thumbnailCategory {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background: #f2f2f2;
+}
+
+.coverImage {
+  object-fit: cover;
+}
+
+.muted {
+  color: #bbb;
+}
+
+.sizeStockRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sizeStockLabel {
+  width: 70px;
+  font-weight: 500;
+}
+
+.sizeStockUnit {
+  color: #888;
+}

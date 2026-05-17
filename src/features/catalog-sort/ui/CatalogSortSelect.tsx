@@ -4,7 +4,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Select } from "antd";
 import type { ProductFilters } from "@/entities/product/model/types";
 import type { Dictionary } from "@/shared/i18n/getDictionary";
-import styles from "../catalog.module.css";
+import styles from "./CatalogSortSelect.module.css";
 
 interface Props {
   currentSort: ProductFilters["sortBy"];

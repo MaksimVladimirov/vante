@@ -9,11 +9,11 @@ import styles from './CartDrawer.module.css'
 
 export function CartDrawer() {
   const { dict } = useLang()
-  const items = useCartStore((s) => s.items)
-  const isOpen = useCartStore((s) => s.isOpen)
-  const closeCart = useCartStore((s) => s.closeCart)
-  const removeItem = useCartStore((s) => s.removeItem)
-  const updateQuantity = useCartStore((s) => s.updateQuantity)
+  const items = useCartStore((store) => store.items)
+  const isOpen = useCartStore((store) => store.isOpen)
+  const closeCart = useCartStore((store) => store.closeCart)
+  const removeItem = useCartStore((store) => store.removeItem)
+  const updateQuantity = useCartStore((store) => store.updateQuantity)
   const { subtotal, shipping, total } = useCartTotals()
 
   return (
@@ -22,18 +22,7 @@ export function CartDrawer() {
       placement="right"
       onClose={closeCart}
       open={isOpen}
-      styles={{
-          wrapper: { width: 420 },
-        header: {
-          fontFamily: 'var(--font-serif)',
-          fontSize: '16px',
-          letterSpacing: '0.1em',
-          textTransform: 'uppercase',
-          fontWeight: 400,
-          borderBottom: '1px solid var(--color-border)',
-        },
-        body: { padding: '0 24px' },
-      }}
+      rootClassName={styles.drawerRoot}
     >
       {items.length === 0 ? (
         <div className={styles.empty}>
@@ -46,7 +35,7 @@ export function CartDrawer() {
               <div key={item.id} className={styles.item}>
                 <div className={styles.itemImage}>
                   {item.image && (
-                    <Image src={item.image} alt={item.name} fill style={{ objectFit: 'cover' }} />
+                    <Image src={item.image} alt={item.name} fill className={styles.coverImage} />
                   )}
                 </div>
                 <div className={styles.itemInfo}>

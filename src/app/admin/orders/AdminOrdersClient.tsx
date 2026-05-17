@@ -72,8 +72,8 @@ export function AdminOrdersClient() {
           size="small"
           onChange={(val) => updateStatus(record.id, val)}
           style={{ width: 140 }}
-          options={(['new', 'paid', 'shipped', 'delivered', 'cancelled'] as const).map((s) => ({
-            value: s,
+          options={(['new', 'paid', 'shipped', 'delivered', 'cancelled'] as const).map((status) => ({
+            value: status,
             label: <Tag color={STATUS_COLORS[s]}>{STATUS_LABELS[s]}</Tag>,
           }))}
         />

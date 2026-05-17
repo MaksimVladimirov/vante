@@ -46,7 +46,7 @@ export function ProductGrid({ products, loading }: ProductGridProps) {
         <div className={styles.loadMore}>
           <button
             className={styles.loadMoreBtn}
-            onClick={() => setVisible((v) => v + PAGE_SIZE)}
+            onClick={() => setVisible((count) => count + PAGE_SIZE)}
           >
             {dict.product.loadMore}
           </button>

@@ -1,6 +1,6 @@
 import type { Locale } from './locales'
 
-/** Returns the localised string, falling back to Russian if the EN version is absent. */
+/** Возвращает строку на нужном языке; если EN-версия отсутствует — возвращает русский вариант. */
 export function pick(
   lang: Locale,
   ru: string | null | undefined,

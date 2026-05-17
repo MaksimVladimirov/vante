@@ -111,13 +111,13 @@ export function AdminProductsClient() {
     {
       title: "Фото", dataIndex: "images", width: 70,
       render: (images: string[]) => images?.[0] ? (
-        <div style={{ position: "relative", width: 48, height: 60 }}>
-          <Image src={images[0]} alt="" fill style={{ objectFit: "cover" }} unoptimized />
+        <div className={styles.thumbnail}>
+          <Image src={images[0]} alt="" fill className={styles.coverImage} unoptimized />
         </div>
-      ) : <div style={{ width: 48, height: 60, background: "#f2f2f2" }} />,
+      ) : <div className={styles.thumbnailEmpty} />,
     },
     { title: "RU", dataIndex: "name" },
-    { title: "EN", dataIndex: "name_en", render: (v: string | null) => v || <span style={{ color: '#bbb' }}>—</span> },
+    { title: "EN", dataIndex: "name_en", render: (v: string | null) => v || <span className={styles.muted}>—</span> },
     { title: "Категория", render: (_: unknown, r: Product) => r.category?.name ?? "—" },
     { title: "Цена", dataIndex: "price", render: (v: number) => `${v.toLocaleString("ru-RU")} ₽` },
     { title: "Остаток", dataIndex: "stock" },
@@ -189,18 +189,18 @@ export function AdminProductsClient() {
             <Select mode="multiple" options={COLOR_OPTIONS} />
           </Form.Item>
           <Form.Item name="sizes" label="Размеры">
-            <Select mode="multiple" options={SIZES.map((s) => ({ value: s, label: s }))} />
+            <Select mode="multiple" options={SIZES.map((size) => ({ value: size, label: size }))} />
           </Form.Item>
 
           {selectedSizes.length > 0 && (
             <Form.Item label="Остаток по размерам">
               {selectedSizes.map((size) => (
-                <div key={size} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                  <span style={{ width: 70, fontWeight: 500 }}>{size}</span>
+                <div key={size} className={styles.sizeStockRow}>
+                  <span className={styles.sizeStockLabel}>{size}</span>
                   <Form.Item name={['size_stock', size]} noStyle>
                     <InputNumber min={0} defaultValue={0} style={{ width: 100 }} />
                   </Form.Item>
-                  <span style={{ color: '#888' }}>шт.</span>
+                  <span className={styles.sizeStockUnit}>шт.</span>
                 </div>
               ))}
             </Form.Item>

@@ -23,7 +23,7 @@ interface AddToCartProps {
 
 export function AddToCart({ product }: AddToCartProps) {
   const { dict } = useLang()
-  const addItem = useCartStore((s) => s.addItem)
+  const addItem = useCartStore((store) => store.addItem)
   const [selectedColor, setSelectedColor] = useState(product.colors[0] || '')
   const [selectedSize, setSelectedSize] = useState('')
 

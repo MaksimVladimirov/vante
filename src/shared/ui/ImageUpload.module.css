@@ -1,0 +1,56 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  background: #f2f2f2;
+}
+
+.previewImage {
+  object-fit: cover;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.galleryItem {
+  position: relative;
+  width: 80px;
+  height: 100px;
+}
+
+.galleryItemInner {
+  position: relative;
+  width: 80px;
+  height: 100px;
+  background: #f2f2f2;
+}
+
+.galleryImage {
+  object-fit: cover;
+}
+
+.removeBtn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}

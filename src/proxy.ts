@@ -10,7 +10,7 @@ function detectLocale(request: NextRequest): string {
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // ─── Admin routes: Supabase session auth ───────────────────────
+  // ─── Маршруты администратора: авторизация через сессию Supabase ─
   if (pathname.startsWith('/admin')) {
     const requestHeaders = new Headers(request.headers)
     requestHeaders.set('x-pathname', pathname)
@@ -51,9 +51,9 @@ export async function proxy(request: NextRequest) {
     return supabaseResponse
   }
 
-  // ─── Store routes: locale prefix ───────────────────────────────
+  // ─── Маршруты магазина: добавление префикса локали ────────────
   const hasLocale = LOCALES.some(
-    (l) => pathname.startsWith(`/${l}/`) || pathname === `/${l}`
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   )
 
   if (!hasLocale) {

@@ -22,15 +22,15 @@ export const useCartStore = create<CartStore>()(
       addItem: (payload) =>
         set((state) => {
           const existing = state.items.find(
-            (i) =>
-              i.productId === payload.productId &&
-              i.color === payload.color &&
-              i.size === payload.size
+            (item) =>
+              item.productId === payload.productId &&
+              item.color === payload.color &&
+              item.size === payload.size
           );
           if (existing) {
             return {
-              items: state.items.map((i) =>
-                i.id === existing.id ? { ...i, quantity: i.quantity + payload.quantity } : i
+              items: state.items.map((item) =>
+                item.id === existing.id ? { ...item, quantity: item.quantity + payload.quantity } : item
               ),
               isOpen: true,
             };
@@ -42,11 +42,11 @@ export const useCartStore = create<CartStore>()(
         }),
 
       removeItem: (id) =>
-        set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
+        set((state) => ({ items: state.items.filter((item) => item.id !== id) })),
 
       updateQuantity: (id, quantity) =>
         set((state) => ({
-          items: state.items.map((i) => (i.id === id ? { ...i, quantity } : i)),
+          items: state.items.map((item) => (item.id === id ? { ...item, quantity } : item)),
         })),
 
       openCart: () => set({ isOpen: true }),
@@ -61,9 +61,9 @@ export const useCartStore = create<CartStore>()(
 );
 
 export function useCartTotals() {
-  const items = useCartStore((s) => s.items);
-  const itemCount = items.reduce((acc, i) => acc + i.quantity, 0);
-  const subtotal = items.reduce((acc, i) => acc + i.price * i.quantity, 0);
+  const items = useCartStore((store) => store.items);
+  const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
+  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const shipping = 0;
   const total = subtotal + shipping;
   return { itemCount, subtotal, shipping, total };

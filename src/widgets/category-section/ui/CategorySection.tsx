@@ -47,13 +47,7 @@ export async function CategorySection({ lang, dict }: Props) {
                     sizes="(max-width: 767px) 100vw, 33vw"
                   />
                 ) : (
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background: "#1a1a1a",
-                    }}
-                  />
+                  <div className={styles.imagePlaceholder} />
                 )}
               </div>
               <div>
